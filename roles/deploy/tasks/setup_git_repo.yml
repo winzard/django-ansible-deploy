@@ -1,0 +1,30 @@
+---
+
+- name: Setup the Git repo
+  sudo: yes
+  sudo_user: "{{ system_user }}"
+  git: repo={{ git_repo }}
+       version="{{ git_branch }}"
+       dest={{ application_path }}
+       accept_hostkey=yes
+       update=yes
+       recursive=no
+       force=yes
+       track_submodules=yes
+       key_file="{{ project_path }}/.ssh/id_rsa"
+  when: setup_git_repo is defined and setup_git_repo
+  tags: git
+
+- name: Delete all .pyc files
+  command: find . -name '*.pyc' -delete
+  args:
+    chdir: "{{ application_path }}"
+  tags: git
+
+- name: Ensure that the application file permissions are set properly
+  file: path={{ application_path }}
+        recurse=yes
+        owner={{ system_user }}
+        group={{ system_group }}
+        state=directory
+  notify: restart application

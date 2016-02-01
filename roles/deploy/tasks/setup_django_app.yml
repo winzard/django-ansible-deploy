@@ -1,0 +1,38 @@
+---
+
+- name: Install additional packages
+  sudo: yes
+  sudo_user: "{{ system_user }}"
+  pip: virtualenv={{ virtualenv_path }} requirements={{ requirements_extra }}
+  when: requirements_extra is defined
+
+- name: Install packages required by the Django app inside virtualenv
+  sudo: yes
+  sudo_user: "{{ system_user }}"
+  pip: virtualenv={{ virtualenv_path }} requirements={{ requirements_file }}
+
+- name: Create local settings
+  template: src=local_settings.py.j2
+            dest={{ application_path }}/{{ project_name}}/local_settings.py
+            backup=yes
+
+- name: Run Django database migrations
+  django_manage:
+    command: migrate
+    app_path: "{{ application_path }}"
+    pythonpath: "{{ application_path }}"
+    virtualenv: "{{ virtualenv_path }}"
+    settings: "{{ django_settings_file }}"
+  
+  when: run_django_db_migrations is defined and run_django_db_migrations
+  tags: django.migrate
+
+- name: Run Django collectstatic
+  django_manage:
+    command: collectstatic
+    app_path: "{{ application_path }}"
+    pythonpath: "{{ application_path }}"
+    virtualenv: "{{ virtualenv_path }}"
+    settings: "{{ django_settings_file }}"
+  when: run_django_collectstatic is defined and run_django_collectstatic
+  tags: django.collectstatic

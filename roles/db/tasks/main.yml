@@ -1,0 +1,10 @@
+---
+
+- include: postgresql.yml
+  tags: deploy
+  when: database is defined and database=="postgresql"
+
+- include: mysql.yml
+  tags: deploy
+  when: database is defined and database=="mysql"
+

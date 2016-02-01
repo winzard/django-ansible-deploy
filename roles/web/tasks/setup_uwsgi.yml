@@ -1,0 +1,71 @@
+---
+
+- name: apt | Make sure uwsgi is installed
+  apt: name={{ item }} state=latest update_cache=yes cache_valid_time=3600
+  with_items:
+    - uwsgi
+    - uwsgi-plugin-python
+  tags:
+    - packages
+
+
+#- name: pip | Make sure that uwsgi is installed
+#  pip: name=uwsgi state=present
+#  sudo: yes
+#  sudo_user: root
+#  tags:
+#    - packages
+
+- name: Making sure uwsgi config directories are there
+  file: path=/etc/{{ item }} state=directory mode=0755 owner=root group=root
+  with_items:
+    - uwsgi
+    - uwsgi/vassals
+
+- name: Making sure there's uwsgi emperor configuration
+  template: src=emperor.ini.j2 dest=/etc/uwsgi/emperor.ini mode=0644 owner=root group=root
+  notify: restart uwsgi
+
+- name: Create the conf folder
+  file: path={{ project_conf_dir }}
+        owner={{ system_user }}
+        group={{ system_group }}
+        mode=0774
+        state=directory
+
+- name: uWsgi | Install uwsgi ini script
+  template: 
+    src=uwsgi.ini.j2
+    dest={{ project_conf_dir }}/uwsgi_{{ project_name}}.ini
+    owner={{ system_user }}
+    group={{ system_group }}
+    mode=0644
+  tags:
+    - configuration
+    - uwsgi
+    - appserver
+    - update
+
+- name: Create symlink to vassals dir
+  file: src={{ project_conf_dir }}/uwsgi_{{ project_name}}.ini path={{ vassals_path }}/uwsgi_{{ project_name}}.ini state=link
+
+- name: Create the tmp folder
+  file: path={{ project_path }}/tmp
+        owner={{ system_user }}
+        group={{ system_group }}
+        mode=0777
+        state=directory
+
+- name: Create the uWSGI reload file
+  file: path={{ project_path }}/tmp/reload.txt
+        owner={{ system_user }}
+    	group={{ system_group }}
+        state=touch
+
+- name: Create the uWSGI sock file
+  file: path={{ project_path }}/tmp/uwsgi.sock
+        owner={{ system_user }}
+    	group={{ system_group }}
+        mode=666
+        state=touch
+

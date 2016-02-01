@@ -1,0 +1,36 @@
+---
+- name: Install base packages
+  apt: name={{ item }} update_cache={{ update_apt_cache }} force=yes state=installed
+  with_items:
+   - build-essential
+   - nano
+   - git
+   - python-dev
+   - python-setuptools
+   - curl
+   - python-software-properties
+   - libpcre3
+   - libpcre3-dev
+   - libgeoip-dev
+   - jpegoptim
+   - optipng
+   - libjpeg-dev
+   - libfreetype6
+   - libfreetype6-dev
+   - zlib1g-dev
+   - libxml2-dev
+   - libxslt1-dev
+   - duplicity
+   - backupninja
+   - python-pycurl
+   - supervisor
+  tags: packages
+
+- name: Install pip
+  sudo: yes
+  easy_install: name=pip
+  tags: packages
+
+- name: Install virtualenv
+  pip: name=virtualenv
+  tags: packages

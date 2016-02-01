@@ -1,0 +1,63 @@
+server
+{
+        listen 80;
+        server_name www.{{ domain_name }} {{ domain_name }};
+        root {{ project_path }}/www/;
+        error_log {{ project_log_dir }}/http_errors.log error;
+
+        location ~* ^/resize/([\d\-]+)/([\d\-]+)/(.+)$ {
+            alias {{ application_path }}/$3;
+            image_filter resize $1 $2;
+            image_filter_buffer 10M;
+            image_filter_jpeg_quality 95;
+            error_page 415 = /empty;
+        }
+
+        location ~* ^/crop/([\d\-]+)/([\d\-]+)/(.+)$ {
+            alias {{ application_path }}/$3;
+            image_filter crop $1 $2;
+            image_filter_buffer 10M;
+            image_filter_jpeg_quality 95;
+            error_page 415 = /empty;
+        }
+
+
+        location = /empty {
+            empty_gif;
+        }
+
+
+        location /
+        {
+            root {{ application_path }}/;
+            uwsgi_pass unix://{{ project_path }}/tmp/uwsgi.sock;
+            include uwsgi_params;
+            uwsgi_param UWSGI_PASS   unix://{{ project_path }}/tmp/uwsgi.sock;
+            uwsgi_param UWSGI_CHDIR  {{ application_path }}/;
+            uwsgi_param UWSGI_SCRIPT wsgi;
+            client_max_body_size 50m;
+        }
+
+        location /static
+        {
+            gzip on;
+            gzip_comp_level 6;
+            gzip_min_length  1000;
+            gzip_proxied     any;
+            gzip_disable     "msie6";
+            gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml;
+            expires    modified +24h;
+
+            alias {{ application_path }}/static/;
+        }
+
+        location /media
+        {
+            expires    modified +24h;
+
+            alias {{ application_path }}/media/;
+        }
+
+        location = /favicon.ico { alias {{ application_path }}/static/favicon.ico; }
+}
+

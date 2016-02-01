@@ -1,0 +1,24 @@
+---
+- name: Install MySQL
+  apt: name={{ item }} update_cache={{ update_apt_cache }} state=present
+  with_items:
+   - mysql-common
+   - mysql-server
+   - python-mysqldb
+   - libmysqlclient-dev
+  tags: packages
+
+- name: Ensure the MySQL service is running
+  service: name=mysql state=started
+
+- name: Ensure database is created
+  mysql_db: name={{ db_name }}
+                 encoding=utf8
+                 state=present
+
+- name: Ensure user has access to the database
+  mysql_user:      name={{ db_user }}
+                   password={{ db_password }}
+                   priv={{ db_name }}.*:ALL
+                   state=present
+

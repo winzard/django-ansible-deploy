@@ -1,0 +1,51 @@
+---
+
+- name: Install Supervisor
+  apt: name=supervisor update_cache={{ update_apt_cache }} state=installed
+  tags:
+    - packages
+
+- name: Ensure supervisor service is started
+  service: name=supervisor state=started enabled=yes
+  tags:
+    - packages
+
+- name: Create the Supervisor config file for uWSGI
+  template: src=emperor.ini.j2
+            dest=/etc/supervisor/conf.d/uwsgi_emperor.conf
+  tags:
+    - packages
+
+- name: Create the uWSGI log directory
+  file: path={{ uwsgi_log_dir }}
+        owner=root
+        group=root
+        state=directory
+  tags:
+    - packages
+
+- name: Create the uWSGI log file
+  file: path={{ uwsgi_log_file }}
+        owner=root
+        group=root
+        state=touch
+  tags:
+    - packages
+
+- name: Create the uWSGI error log file
+  file: path={{ uwsgi_errlog_file }}
+        owner=root
+        group=root
+        state=touch
+  tags:
+    - packages
+
+- name: Re-read the Supervisor config files
+  command: supervisorctl reread
+  tags:
+    - packages
+
+- name: Update Supervisor to add the app in the process group
+  command: supervisorctl update
+  tags:
+    - packages

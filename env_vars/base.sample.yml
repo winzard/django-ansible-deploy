@@ -1,0 +1,24 @@
+---
+
+git_repo: git@github.com:sample/sample.git
+
+project_name: project
+application_name: application
+domain_name: example.com
+database: postgresql # or mysql
+run_django_db_migrations: yes
+run_django_collectstatic: yes
+
+# Git settings.
+setup_git_repo: yes
+git_branch: master
+
+db_password: password
+
+# Rabbit MQ
+rabbitmq_admin_user: admin
+rabbitmq_admin_password: password
+rabbitmq_application_password: password
+
+# nginx
+nginx_server_name: 192.168.33.15

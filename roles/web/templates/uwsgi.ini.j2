@@ -1,0 +1,20 @@
+[uwsgi]
+    socket = {{project_path}}/tmp/uwsgi.sock
+    processes = 5
+    virtualenv = {{ virtualenv_path }}
+    module = {{ project_name }}.wsgi
+    chdir = {{ application_path }}/
+    env = DJANGO_SETTINGS_MODULE={{ project_name }}.settings
+    master = 1
+    uid = {{ system_user_id.stdout }}
+    harakiri = 30
+    optimize = 3
+    chmod-socket = 666
+    touch-reload = {{project_path}}/tmp/reload.txt
+    logdate = 1
+    procname = {{ project_name }}_uwsgi
+    vacuum = 1
+    max-requests = 2000
+    cheaper = 1
+    post-buffering = 20048576
+

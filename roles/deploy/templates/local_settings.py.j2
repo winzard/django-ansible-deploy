@@ -1,0 +1,41 @@
+DEBUG = False
+TEMPLATE_DEBUG = DEBUG
+from datetime import timedelta
+
+{% if database and database == 'postgresql' %}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': '{{ db_name }}',                      # Or path to database file if using sqlite3.
+        # The following settings are not used with sqlite3:
+        'USER': '{{ db_user }}',
+        'PASSWORD': '{{ db_password }}',
+        'HOST': '127.0.0.1',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '5432',                      # Set to empty string for default.
+    }
+}
+{% else %}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': '{{ db_name }}',                      # Or path to database file if using sqlite3.
+        'USER': '{{ db_user }}',                      # Not used with sqlite3.
+        'PASSWORD': '{{ db_password }}',                  # Not used with sqlite3.
+        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'OPTIONS': {'init_command': 'SET storage_engine=INNODB,character_set_connection=utf8,collation_connection=utf8_unicode_ci;'},
+    }
+}
+
+{% endif %}
+
+
+
+CELERY_RESULT_BACKEND = 'celery.backends.amqp:AMQPBackend'
+CELERY_TASK_SERIALIZER = "json"
+DO_NOT_SEND = True
+AUTH_USER_EMAIL_UNIQUE = True
+MAILQUEUE_CELERY = True
+MAILQUEUE_QUEUE_UP = True
+
+BROKER_URL="amqp://{{ rabbitmq_application_user }}:{{ rabbitmq_application_password }}@localhost/{{ rabbitmq_application_vhost }}"

@@ -1,0 +1,27 @@
+#!/bin/sh
+
+CELERYD_NODES="worker_{{ application_name }}"
+CELERY_BIN="{{ virtualenv_path }}/bin/celery"
+
+CELERY_APP="{{ application_name }}"
+CELERYD_CHDIR="{{ project_path }}"
+
+# Extra command-line arguments to the worker
+CELERYD_OPTS="-B --time-limit=300 --concurrency=8"
+
+
+CELERYD_LOG_FILE="{{ celery_log_file }}"
+
+CELERYD_USER="{{ celery_user }}"
+CELERYD_GROUP="{{ celery_group }}"
+export DJANGO_SETTINGS_MODULE="{{ django_settings_file }}"
+CELERY_CREATE_DIRS=1
+
+# Activate the virtual environment.
+cd $CELERYD_CHDIR
+. {{ virtualenv_path }}/bin/activate
+
+
+# Programs meant to be run under supervisor should not daemonize themselves
+# (do not use --daemon).
+exec {{ virtualenv_path }}/bin/python $CELERY_BIN --workdir=$CELERYD_CHDIR -A {{ application_name }} worker $CELERYD_OPTS

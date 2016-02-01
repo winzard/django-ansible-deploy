@@ -1,0 +1,20 @@
+---
+
+- include: create_users_and_groups.yml
+
+- include: setup_virtualenv.yml
+  tags: virtualenv
+
+- include: setup_supervisor.yml
+  tags: uwsgi
+
+- include: setup_uwsgi.yml
+  tags: uwsgi
+
+- include: set_file_permissions.yml
+  tags: deploy
+
+- include: setup_nginx.yml
+  tags: nginx
+
+

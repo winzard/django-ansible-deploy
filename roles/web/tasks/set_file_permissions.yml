@@ -1,0 +1,10 @@
+---
+
+- name: Ensure that the application file permissions are set properly
+  file: 
+      path: "{{ application_path }}"
+      recurse: yes
+      mode: u=rwX,g=rX,o=rX
+
+
+

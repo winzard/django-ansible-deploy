@@ -1,0 +1,36 @@
+---
+
+- name: import public variable file
+  include_vars: "public_key.yml"
+  no_log: True
+
+- name: import secret variable file
+  include_vars: secret_key.yml
+  no_log: True
+
+- name: copy deployment private key
+  copy:
+    content: "{{ private_key_content }}"
+    dest: "/home/{{ system_user }}/.ssh/id_rsa"
+    owner: "{{ system_user }}"
+    group: "{{ system_group }}"
+    mode: 0600
+  no_log: true
+
+- name: copy deployment public key
+  copy:
+    content: "{{ public_key_content }}"
+    dest: "/home/{{ system_user }}/.ssh/id_rsa.pub"
+    owner: "{{ system_user }}"
+    group: "{{ system_group }}"
+    mode: 0600
+  no_log: true
+
+- include: setup_git_repo.yml
+  tags: deploy
+
+- include: setup_django_app.yml
+  sudo: yes
+  remote_user: "{{ system_user }}"
+  tags: deploy
+

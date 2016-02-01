@@ -1,0 +1,10 @@
+[program:master_uwsgi]
+command=/usr/local/bin/uwsgi --emperor /etc/uwsgi/vassals/ --logto /etc/uwsgi/logs/masterlog --log-maxsize=888888
+stdout_logfile=/etc/uwsgi/logs/master_uwsgi_log.log
+stderr_logfile=/etc/uwsgi/logs/master_uwsgi_err.log
+autostart=true
+autorestart=true
+redirect_stderr=true
+stopwaitsecs = 60
+stopsignal=INT
+
