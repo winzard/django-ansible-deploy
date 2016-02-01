@@ -1,36 +1,36 @@
-ansible-django-stack
+django-ansible-deploy
 ====================
 
-Ansible Playbook designed for environments running a Django app.  It can install and configure these applications that are commonly used in production Django deployments:
+Основан на репозитории [ansible-django-stack](https://github.com/jcalazan/ansible-django-stack)
+
+Ansible Playbook предназначен для быстрого развертывания Djngo-проекта на чистом сервере. Сценарий устанавливает и настраивает пакеты и приложения, обычно используемые в production проектов на Django:
 
 - Nginx
-- Gunicorn
-- PostgreSQL
+- uWSGI (Emperor)
+- PostgreSQL or MySQL
 - Supervisor
 - Virtualenv
 - Memcached
 - Celery
 - RabbitMQ
 
-Default settings are stored in ```roles/role_name/vars/main.yml```.  Environment-specific settings are in the ```env_vars``` directory.
+Настройки для ролей хранятся в ```roles/role_name/vars/main.yml```. Общие настройки окружения в директории ```env_vars```.
 
-**Tested with OS:** Ubuntu 12.04 LTS x64, Ubuntu 14.04 LTS x64
+**Протестировано:** Ubuntu 12.04 LTS x64, Ubuntu 14.04 LTS x64
 
-**Tested with Cloud Providers:** [Digital Ocean](https://www.digitalocean.com/?refcode=5aa134a379d7), [Amazon](https://aws.amazon.com), [Rackspace](http://www.rackspace.com/)
+## Быстро посмотреть
 
-## Getting Started
+С помощью Vagrant и Virtualbox можно быстро развернуть playbook и оценить, что там к чему.
 
-A quick way to get started is with Vagrant and VirtualBox.
-
-### Requirements
+### Требования
 
 - [Ansible](http://docs.ansible.com/intro_installation.html)
 - [Vagrant](http://www.vagrantup.com/downloads.html)
 - [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
-The main settings to change here is in the **env_vars/base** file, where you can configure the location of your Git project, the project name, and application name which will be used throughout the Ansible configuration.
+Пример настроек находится в файле base.sample.yml директории env_vars. Скопируйте его в новый файл base.yml
 
-Note that the default values in the playbooks assume that your project structure looks something like this:
+Структура вашего проекта Django должна быть каноничной:
 
 ```
 myproject
@@ -55,52 +55,66 @@ myproject
 └── requirements.txt
 ```
 
-The main things to note are the locations of the `manage.py` and `wsgi.py` files.  If your project's structure is a little different, you may need to change the values in these 2 files:
+Если вам случается устанавливать пакеты не из pip, а из своих секретных мест, пропишите их в файле '''requirements.extra''' вашего проекта.
+Например:
+'''
+git+ssh://git@github.com/winzard/django-simple-yandex-map.git@master
+git+ssh://git@github.com/winzard/django-constance.git
+'''
 
-- `roles/web/tasks/setup_django_app.yml`
-- `roles/web/templates/gunicorn_start.j2`
 
-Also, if your app needs additional system packages installed, you can add them in `roles/web/tasks/install_additional_packages.yml`.
+**Ключи доступа к серверу**
+В папке deploy/vars/ находятся публичный и зашифрованный секретный ключи доступа. Эти ключи нужны для доступа к приватным репозиториям git. Приватный ключ расшифровывается и копируется на разворачиваемый сервер, а публичный нужно прописать в настройках доступа по ключу нужных репозиториев. Ключ шифруется в Ansible Vault командой.
 
-I set some default values in the `env_vars` based on my open-source app, [YouTube Audio Downloader](https://github.com/jcalazan/youtube-audio-dl), so all you really have to do is type in this one command in the project root:
+'''
+ansible-vault encrypt secret_key.yml
+'''
+
+Чтобы ключ был расшифрован, Ansible Playbook нужно выполнять с опцией *--ask-vault-pass*
+
+Чтобы развернуть сервер через Vagrant, выполните
 
 ```
 vagrant up
 ```
 
-Wait a few minutes for the magic to happen.  Access the app by going to this URL: http://192.168.33.15
+Спустя некоторое время сервер будет доступен по адресу, указанному в переменной '''domain_name''' настроек.
 
-Yup, exactly, you just provisioned a completely new server and deployed an entire Django stack in 5 minutes with _two words_ :).
+### Что еще можно попробовать в Vagrant
 
-### Additional vagrant commands
-
-**SSH to the box**
+**Достучаться по SSH**
 
 ```
 vagrant ssh
 ```
 
-**Re-provision the box to apply the changes you made to the Ansible configuration**
+**Перезапустить установку, если что-то изменилось или отвалилось**
 
 ```
 vagrant provision
 ```
 
-**Reboot the box**
+**Перезагрузить сервер**
 
 ```
 vagrant reload
 ```
 
-**Shutdown the box**
+**Выключить сервер**
 
 ```
 vagrant halt
 ```
 
-## Running the Ansible Playbook to provision servers
+**Уничтожить сервер**
 
-First, create an inventory file for the environment, for example:
+```
+vagrant destroy
+```
+
+## Запуск Ansible Playbook на реальном сервере
+
+Сначала создайте файл inventory file:
 
 ```
 # development
@@ -116,70 +130,15 @@ webserver2.example.com
 dbserver1.example.com
 ```
 
-Next, create a playbook for the server type. See [webservers.yml](webservers.yml) for an example.
+Затем создайте playbook для сервера. См. для примера [webservers.yml](webservers.yml).
 
-Run the playbook:
-
-```
-ansible-playbook -i development webservers.yml
-```
-
-You can also provision an entire site by combining multiple playbooks.  For example, I created a playbook called `site.yml` that includes both the `webservers.yml` and `dbservers.yml` playbook.
-
-A few notes here:
-
-- The `dbservers.yml` playbook will only provision servers in the `[dbservers]` section of the inventory file.
-- The `webservers.yml` playbook will only provision servers in the `[webservers]` section of the inventory file.
-- An inventory var called `env` is also set which applies to `all` hosts in the inventory.  This is used in the playbook to determine which `env_var` file to use.
-
-You can then provision the entire site with this command:
+Запустите сценарий:
 
 ```
-ansible-playbook -i development site.yml
+ansible-playbook -i development webservers.yml --ask-vault-pass
 ```
 
-If you're testing with vagrant, you can use this command:
-
-```
-ansible-playbook -i vagrant_ansible_inventory_default --private-key=~/.vagrant.d/insecure_private_key vagrant.yml
-```
-
-## Using Ansible for Django Deployments
-
-When doing deployments, you can simply use the `--tags` option to only run those tasks with these tags.
-
-For example, you can add the tag `deploy` to certain tasks that you want to execute as part of your deployment process and then run this command:
-
-```
-ansible-playbook -i stage webserbers.yml --tags="deploy"
-```
-
-This repo already has `deploy` tags specified for tasks that are likely needed to run during deployment in most Django environments.
-
-## Advanced Options
-
-### Creating a swap file
-
-By default, the playbook won't create a swap file.  To create/enable swap, simply change the values in `roles/base/vars/main.yml`. 
-
-You can also override these values in the main playbook, for example:
-
-```
----
-
-...
-
-  roles:
-    - { role: base, create_swap_file: yes, swap_file_size_kb: 1024 }
-    - db
-    - rabbitmq
-    - web
-    - celery
-```
-
-This will create and mount a 1GB swap.  Note that block size is 1024, so the size of the swap file will be 1024 x `swap_file_size_kb`.
-
-## Useful Links
+## Полезные ссылки, которые уже поздно читать
 
 - [Ansible - Getting Started](http://docs.ansible.com/intro_getting_started.html)
 - [Ansible - Best Practices](http://docs.ansible.com/playbooks_best_practices.html)

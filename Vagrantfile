@@ -22,7 +22,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "vagrant.yml"
     ansible.host_key_checking = false
-    ansible.ask_vault_pass = false
+    ansible.ask_vault_pass = true
     ansible.verbose = "v"
   end
 end
