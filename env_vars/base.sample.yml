@@ -24,3 +24,5 @@ rabbitmq_admin_password: password
 rabbitmq_application_password: password
 
 
+# Ubuntu version
+ubuntu: precise
