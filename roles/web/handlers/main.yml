@@ -7,7 +7,7 @@
   service: name=nginx state=reloaded
 
 - name: restart uwsgi
-  supervisorctl: name=uwsgi state=restarted enabled=yes
+  supervisorctl: name=uwsgi state=restarted
 
 - name: reload uwsgi
   supervisorctl: name=uwsgi state=reloaded
