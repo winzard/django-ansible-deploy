@@ -23,5 +23,4 @@ rabbitmq_admin_user: admin
 rabbitmq_admin_password: password
 rabbitmq_application_password: password
 
-# nginx
-nginx_server_name: 192.168.33.15
+
