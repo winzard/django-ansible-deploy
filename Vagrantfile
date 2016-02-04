@@ -11,7 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :private_network, ip: "192.168.33.15"
 
   config.vm.provider :virtualbox do |vb|
-    vb.customize ["modifyvm", :id, "--name", "Recordovo", "--memory", "512"]
+    vb.customize ["modifyvm", :id, "--name", "default", "--memory", "512"]
   end
 
   # Shared folder from the host machine to the guest machine. Uncomment the line
@@ -22,7 +22,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "vagrant.yml"
     ansible.host_key_checking = false
-    ansible.ask_vault_pass = true
+    ansible.vault_password_file = ".vault.pass"
     ansible.verbose = "v"
   end
 end

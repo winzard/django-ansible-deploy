@@ -4,17 +4,16 @@
   apt: name=nginx update_cache={{ update_apt_cache }} state=latest
   tags: packages
 
-
-
 - name: Create the Nginx configuration file
   template: src=nginx_site_config.j2
             dest={{ project_conf_dir }}/nginx_{{ application_name }}.conf
             backup=yes
   notify: reload nginx
+  
 
 - name: Ensure that the default site is disabled
-  command: rm /etc/nginx/sites-enabled/default
-           removes=/etc/nginx/sites-enabled/default
+  file: path=/etc/nginx/sites-enabled/default
+           state=absent
   notify: reload nginx
 
 - name: Ensure that the application site is enabled

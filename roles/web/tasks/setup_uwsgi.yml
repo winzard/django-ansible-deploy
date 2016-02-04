@@ -1,20 +1,20 @@
 ---
 
-- name: apt | Make sure uwsgi is installed
-  apt: name={{ item }} state=latest update_cache=yes cache_valid_time=3600
-  with_items:
-    - uwsgi
-    - uwsgi-plugin-python
-  tags:
-    - packages
-
-
-#- name: pip | Make sure that uwsgi is installed
-#  pip: name=uwsgi state=present
-#  sudo: yes
-#  sudo_user: root
+#- name: apt | Make sure uwsgi is installed
+#  apt: name={{ item }} state=latest update_cache=yes cache_valid_time=3600
+#  with_items:
+#    - uwsgi
+#    - uwsgi-plugin-python
 #  tags:
 #    - packages
+
+
+- name: pip | Make sure that uwsgi is installed
+  pip: name=uwsgi state=present
+  sudo: yes
+  sudo_user: root
+  tags:
+    - packages
 
 - name: Making sure uwsgi config directories are there
   file: path=/etc/{{ item }} state=directory mode=0755 owner=root group=root
@@ -62,10 +62,10 @@
     	group={{ system_group }}
         state=touch
 
-- name: Create the uWSGI sock file
-  file: path={{ project_path }}/tmp/uwsgi.sock
-        owner={{ system_user }}
-    	group={{ system_group }}
-        mode=666
-        state=touch
+#- name: Create the uWSGI sock file
+#  file: path={{ project_path }}/tmp/uwsgi.sock
+#        owner={{ system_user }}
+#    	group={{ system_group }}
+#        mode=666
+#        state=touch
 

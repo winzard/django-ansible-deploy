@@ -6,10 +6,12 @@
   pip: virtualenv={{ virtualenv_path }} requirements={{ requirements_extra }}
   when: requirements_extra is defined
 
+
 - name: Install packages required by the Django app inside virtualenv
   sudo: yes
   sudo_user: "{{ system_user }}"
   pip: virtualenv={{ virtualenv_path }} requirements={{ requirements_file }}
+
 
 - name: Create local settings
   template: src=local_settings.py.j2
@@ -23,7 +25,7 @@
     pythonpath: "{{ application_path }}"
     virtualenv: "{{ virtualenv_path }}"
     settings: "{{ django_settings_file }}"
-  
+
   when: run_django_db_migrations is defined and run_django_db_migrations
   tags: django.migrate
 

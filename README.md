@@ -70,7 +70,7 @@ git+ssh://git@github.com/winzard/django-constance.git
 ansible-vault encrypt secret_key.yml
 '''
 
-Чтобы ключ был расшифрован, Ansible Playbook нужно выполнять с опцией *--ask-vault-pass*
+Чтобы ключ был расшифрован, Ansible Playbook нужно выполнять с опцией *--ask-vault-pass* или прописать ключ в файл и запускать с опцией *--vault-password-file*
 
 Чтобы развернуть сервер через Vagrant, выполните
 

@@ -8,7 +8,6 @@ virtualenv_path: "{{ project_path }}/www/venv"
 project_log_dir: "{{ project_path }}/logs"
 project_conf_dir: "{{ project_path }}/conf"
 application_log_file: "{{ project_log_dir }}/{{ project_name }}.log"
-uwsgi_log_file: "{{ project_log_dir }}/uwsgi.log"
 requirements_file: "{{ project_path }}/requirements.txt"
 
 vassals_path: "/etc/uwsgi/vassals"

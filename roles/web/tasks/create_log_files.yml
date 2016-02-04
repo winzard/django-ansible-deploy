@@ -1,0 +1,46 @@
+---
+- name: Create the application log folder
+  file: path={{ project_log_dir }}
+        owner={{ system_user }}
+        group={{ system_group }}
+        mode=0774
+        state=directory
+
+- name: Create the application log file
+  sudo: yes
+  sudo_user: "{{ system_user }}"
+  command: touch {{ application_log_file }}
+           creates={{ application_log_file }}
+
+- name: Set permission to the application log file
+  file: path={{ application_log_file }}
+        owner={{ system_user }}
+        group={{ system_group }}
+        mode=0664
+        state=file
+        
+- name: Create the debug log file
+  sudo: yes
+  sudo_user: "{{ system_user }}"
+  command: touch {{ project_log_dir }}/debug.log
+           creates={{ project_log_dir }}/debug.log
+
+- name: Set permission to the debug log file
+  file: path={{ project_log_dir }}/debug.log
+        owner={{ system_user }}
+        group={{ system_group }}
+        mode=0664
+        state=file
+
+- name: Create http_errors log file
+  sudo: yes
+  sudo_user: "{{ system_user }}"
+  command: touch {{ project_log_dir }}/http_errors.log
+           creates={{ project_log_dir }}/http_errors.log
+
+- name: Set permission to http_errors log file
+  file: path={{ project_log_dir }}/http_errors.log
+        owner={{ system_user }}
+        group={{ system_group }}
+        mode=0664
+        state=file

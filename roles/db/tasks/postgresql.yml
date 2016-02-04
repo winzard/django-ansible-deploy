@@ -34,3 +34,10 @@
   postgresql_user: name={{ db_user }}
                    role_attr_flags=NOSUPERUSER,NOCREATEDB
                    state=present
+
+- name: Install packages required by the PostgreSQL inside virtualenv
+  sudo: yes
+  sudo_user: "{{ system_user }}"
+  pip: virtualenv={{ virtualenv_path }} name=psycopg2
+
+

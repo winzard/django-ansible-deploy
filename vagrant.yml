@@ -14,9 +14,9 @@
 
   roles:
     - base
-    - db
     - rabbitmq
     - web
+    - db
     - deploy
     - celery
 

@@ -1,19 +1,31 @@
 ---
 
-- name: Setup the Git repo
+- name: Add required sites with repos in known_hosts
   sudo: yes
   sudo_user: "{{ system_user }}"
-  git: repo={{ git_repo }}
-       version="{{ git_branch }}"
-       dest={{ application_path }}
+  known_hosts: path="{{ project_path }}/.ssh/known_hosts"
+               name="{{ item }}"
+               state=present
+               key="{{ lookup('pipe', 'ssh-keyscan -H {{ item }}') }}"
+  with_items: known_hosts
+
+
+- name: Setup the Git repos and submodules (as separate repos)
+  sudo: yes
+  sudo_user: "{{ system_user }}"
+  git: repo={{ item.repo }}
+       version="{{ item.branch }}"
+       dest="{{ application_path }}/{{ item.dest }}"
        accept_hostkey=yes
        update=yes
        recursive=no
        force=yes
-       track_submodules=yes
+       track_submodules=no
        key_file="{{ project_path }}/.ssh/id_rsa"
+  with_items: git_repos
   when: setup_git_repo is defined and setup_git_repo
   tags: git
+
 
 - name: Delete all .pyc files
   command: find . -name '*.pyc' -delete

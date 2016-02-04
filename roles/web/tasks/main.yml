@@ -2,6 +2,8 @@
 
 - include: create_users_and_groups.yml
 
+- include: create_log_files.yml
+
 - include: setup_virtualenv.yml
   tags: virtualenv
 

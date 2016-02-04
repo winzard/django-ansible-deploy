@@ -6,5 +6,10 @@
       recurse: yes
       mode: u=rwX,g=rX,o=rX
 
+- name: Ensure that the virtualenv file permissions are set properly
+  file: 
+      path: "{{ virtualenv_path }}"
+      recurse: yes
+      mode: u=rwX,g=rw,o=rw
 
 

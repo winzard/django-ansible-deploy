@@ -1,6 +1,7 @@
 ---
 
-git_repo: git@github.com:sample/sample.git
+git_repos: [ { repo: "git@github.com:sample/sample.git", branch: "master", dest: ""},
+             { repo: "git@github.com:sample/sample_submodule.git", branch: "master", dest: "sample_submodule"} ]
 
 project_name: project
 application_name: application
@@ -9,9 +10,11 @@ database: postgresql # or mysql
 run_django_db_migrations: yes
 run_django_collectstatic: yes
 
+known_hosts: ['github.com', 'bitbucket.com']
+
 # Git settings.
 setup_git_repo: yes
-git_branch: master
+
 
 db_password: password
 

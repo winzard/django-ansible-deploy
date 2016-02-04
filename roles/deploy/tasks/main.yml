@@ -2,11 +2,19 @@
 
 - name: import public variable file
   include_vars: "public_key.yml"
-  no_log: True
+  no_log: False
 
 - name: import secret variable file
   include_vars: secret_key.yml
-  no_log: True
+  no_log: False
+
+- name: Create directory for ssh keys
+  file:
+    name: "/home/{{ system_user }}/.ssh"
+    owner: "{{ system_user }}"
+    group: "{{ system_group }}"
+    state: directory
+  no_log: False
 
 - name: copy deployment private key
   copy:
@@ -15,7 +23,7 @@
     owner: "{{ system_user }}"
     group: "{{ system_group }}"
     mode: 0600
-  no_log: true
+  no_log: False
 
 - name: copy deployment public key
   copy:
@@ -24,13 +32,13 @@
     owner: "{{ system_user }}"
     group: "{{ system_group }}"
     mode: 0600
-  no_log: true
+  no_log: False
 
 - include: setup_git_repo.yml
   tags: deploy
 
 - include: setup_django_app.yml
   sudo: yes
-  remote_user: "{{ system_user }}"
+  sudo_user: "{{ system_user }}"
   tags: deploy
 
