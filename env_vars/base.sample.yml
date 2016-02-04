@@ -25,4 +25,4 @@ rabbitmq_application_password: password
 
 
 # Ubuntu version
-ubuntu: precise
+ubuntu_version: precise
