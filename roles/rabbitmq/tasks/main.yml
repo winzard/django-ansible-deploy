@@ -8,12 +8,6 @@
                   update_cache={{ update_apt_cache }}
                   state=present
 
-- name: Install Erlang libraries
-  apt: name={{ item }} update_cache={{ update_apt_cache }} force=yes state=installed
-  with_items:
-    - esl-erlang
-
-
 - name: Add the RabbitMQ public GPG key to the apt repo
   apt_key: url=http://www.rabbitmq.com/rabbitmq-signing-key-public.asc
            state=present
@@ -26,6 +20,7 @@
 - name: Install RabbitMQ server
   apt: name={{ item }} update_cache={{ update_apt_cache }} force=yes state=installed
   with_items:
+    - esl-erlang
     - rabbitmq-server
 
 - name: Enable the RabbitMQ Management Console
