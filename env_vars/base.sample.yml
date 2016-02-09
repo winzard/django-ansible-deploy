@@ -28,3 +28,7 @@ rabbitmq_application_password: password
 
 # Ubuntu version
 ubuntu_version: trusty
+
+# extra_python_packages: requirements.extra
+# extra_install: install.sh
+# fixtures: "all.json"

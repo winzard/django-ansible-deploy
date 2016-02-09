@@ -1,18 +1,4 @@
 ---
-
-- name: Install additional packages
-  sudo: yes
-  sudo_user: "{{ system_user }}"
-  pip: virtualenv={{ virtualenv_path }} requirements={{ requirements_extra }}
-  when: requirements_extra is defined
-
-
-- name: Install packages required by the Django app inside virtualenv
-  sudo: yes
-  sudo_user: "{{ system_user }}"
-  pip: virtualenv={{ virtualenv_path }} requirements={{ requirements_file }}
-
-
 - name: Create local settings
   template: src=local_settings.py.j2
             dest={{ application_path }}/{{ project_name}}/local_settings.py
@@ -38,3 +24,15 @@
     settings: "{{ django_settings_file }}"
   when: run_django_collectstatic is defined and run_django_collectstatic
   tags: django.collectstatic
+
+
+- name: Load data from fixtures
+  django_manage:
+    command: loaddata
+    fixtures: "{{ fixtures }}"
+    app_path: "{{ application_path }}"
+    pythonpath: "{{ application_path }}"
+    virtualenv: "{{ virtualenv_path }}"
+    settings: "{{ django_settings_file }}"
+  when: fixtures is defined
+  tags: django.migrate

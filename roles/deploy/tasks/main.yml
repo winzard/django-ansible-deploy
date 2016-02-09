@@ -34,7 +34,11 @@
     mode: 0600
   no_log: False
 
+
 - include: setup_git_repo.yml
+  tags: deploy
+
+- include: install_requirements.yml
   tags: deploy
 
 - include: setup_django_app.yml

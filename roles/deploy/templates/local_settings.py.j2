@@ -37,5 +37,5 @@ DO_NOT_SEND = True
 AUTH_USER_EMAIL_UNIQUE = True
 MAILQUEUE_CELERY = True
 MAILQUEUE_QUEUE_UP = True
-
+ALLOWED_HOSTS = ["{{ domain_name }}", "www.{{ domain_name}}"]
 BROKER_URL="amqp://{{ rabbitmq_application_user }}:{{ rabbitmq_application_password }}@{{ hostname }}/{{ rabbitmq_application_vhost }}"
