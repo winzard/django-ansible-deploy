@@ -3,7 +3,7 @@
 CELERYD_NODES="worker_{{ application_name }}"
 CELERY_BIN="{{ virtualenv_path }}/bin/celery"
 
-CELERY_APP="{{ application_name }}"
+CELERY_APP="{{ celery_application_name }}"
 CELERYD_CHDIR="{{ project_path }}"
 
 # Extra command-line arguments to the worker
