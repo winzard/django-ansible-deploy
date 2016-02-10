@@ -1,0 +1,4 @@
+---
+- name: touch reload
+  file: path={{ project_path }}/tmp/reload.txt
+        state=touch

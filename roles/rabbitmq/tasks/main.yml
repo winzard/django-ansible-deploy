@@ -1,7 +1,4 @@
 ---
-- name: Change remote hostname
-  hostname: name={{ rabbitmq_server_name }}
-
 - name: Add Erlang public GPG key to the apt repo
   apt_key: url=http://binaries.erlang-solutions.com/debian/erlang_solutions.asc
            state=present

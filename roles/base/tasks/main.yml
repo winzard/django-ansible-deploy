@@ -1,4 +1,20 @@
 ---
+- name: Change remote hostname
+  hostname: name={{ hostname }}
+
+- name: Change remote hosts file
+  sudo: yes
+  sudo_user: root
+  lineinfile:
+    dest=/etc/hosts
+    line="127.0.0.1 {{ hostname }}"
+    state=present
+    insertafter=EOF
+    owner=root
+    group=root
+    mode=0644
+    create=True
+
 - name: Install base packages
   apt: name={{ item }} update_cache={{ update_apt_cache }} force=yes state=installed
   with_items:

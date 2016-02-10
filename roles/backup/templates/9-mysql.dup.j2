@@ -1,0 +1,12 @@
+options = --no-encryption --name {{ hostname }}.mysql
+tmpdir = /home/backups/mysql/tmp
+
+[gpg]
+password = {{ backup_password }}
+[dest]
+keep = 7
+ftp_password = {{ backup_password }}
+desturl = {{ backup_dest }}/mysql
+
+[source]
+include = /var/backups/mysql/

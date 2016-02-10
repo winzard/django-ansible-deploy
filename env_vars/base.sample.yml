@@ -7,6 +7,7 @@ project_name: project
 application_name: application
 domain_name: example.com
 database: postgresql # or mysql
+db_password: password
 
 hostname: localhost # force hostname for rabbitmq and django config. RABBITMQ WILL LOST ALL VHOSTS AND USERS IF YOU WILL CHANGE HOSTNAME
 run_django_db_migrations: yes
@@ -16,9 +17,6 @@ known_hosts: ['github.com', 'bitbucket.com']
 
 # Git settings.
 setup_git_repo: yes
-
-
-db_password: password
 
 # Rabbit MQ
 rabbitmq_admin_user: admin
@@ -32,3 +30,11 @@ ubuntu_version: trusty
 # extra_python_packages: requirements.extra
 # extra_install: install.sh
 # fixtures: "all.json"
+
+db_root_password: password
+
+backup_password: password
+backup_host: backup.host
+backup_user: remote_backup
+
+backup_dest:  "ftp://{{backup_user}}@{{backup_host}}/backups/{{ hostname }}"

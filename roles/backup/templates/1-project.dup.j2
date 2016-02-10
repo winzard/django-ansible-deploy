@@ -1,0 +1,13 @@
+options = --no-encryption --name {{ hostname }}.{{project_name}}
+tmpdir = /tmp
+
+[gpg]
+password = {{ backup_password }}
+[dest]
+keep = 7
+ftp_password = {{ backup_password }}
+desturl = {{ backup_dest }}/{{ project_name }}
+
+
+[source]
+include = /home/{{ project_name }}/www/{{ project_name }}/

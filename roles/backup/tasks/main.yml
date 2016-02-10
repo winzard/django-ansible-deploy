@@ -1,0 +1,81 @@
+---
+
+- name: Make local backup all Postgesql files
+  sudo: yes
+  sudo_user: root
+  template: 
+    src="10-all.pgsql.j2"
+    dest="/etc/backup.d/10-all.pgsql"
+    owner=root
+    group=root
+    mode=0000
+  tags:
+    - backup
+  when: database == 'postgresql'
+
+- name: Make remote backup all Postgesql files
+  sudo: yes
+  sudo_user: root
+  template: 
+    src="9-pgsql.dup.j2"
+    dest="/etc/backup.d/9-pgsql.dup"
+    owner=root
+    group=root
+    mode=0000
+  tags:
+    - backup
+  when: database == 'postgresql'
+
+- name: Make local backup all MySQL files
+  sudo: yes
+  sudo_user: root
+  template: 
+    src="10-all.mysql.j2"
+    dest="/etc/backup.d/10-all.mysql"
+    owner=root
+    group=root
+    mode=0000
+  tags:
+    - backup
+  when: database == 'mysql'
+
+- name: Make remote backup all MySQL files
+  sudo: yes
+  sudo_user: root
+  template: 
+    src="9-mysql.dup.j2"
+    dest="/etc/backup.d/9-mysql.dup"
+    owner=root
+    group=root
+    mode=0000
+  tags:
+    - backup
+  when: database == 'mysql'
+
+- name: Make remote backup of project files
+  sudo: yes
+  sudo_user: root
+  template: 
+    src="1-project.dup.j2"
+    dest="/etc/backup.d/1-{{ project_name }}.dup"
+    owner=root
+    group=root
+    mode=0000
+  tags:
+    - backup
+
+- name: Copy bash script for ftp folders
+  template: 
+    src="make_ftp_dirs.sh.j2"
+    dest="/home/{{project_name}}/make_ftp_dirs.sh"
+    owner=root
+    group=root
+    mode=0777
+  tags:
+    - backup
+
+- name: make ftp dirs
+  shell: "/home/{{project_name}}/make_ftp_dirs.sh"
+
+- name: Remove secret shell script
+  file: path="/home/{{project_name}}/make_ftp_dirs.sh" state=absent

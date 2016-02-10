@@ -1,0 +1,27 @@
+#!/bin/bash
+foo() {
+    local r
+    local a
+    r="$@"
+    while [[ "$r" != "$a" ]] ; do
+        a=${r%%/*}
+        echo "mkdir $a"
+        echo "cd $a"
+        r=${r#*/}
+    done
+}
+DIRECTORY1="backups/{{hostname}}/mysql"
+DIRECTORY2="backups/{{hostname}}/pgsql"
+DIRECTORY3="backups/{{hostname}}/{{ project_name }}"
+HOST="{{backup_host}}"           
+USER="{{backup_user}}"         
+PASS="{{backup_password}}"         
+
+ftp -n $HOST <<END_SCRIPT
+quote USER $USER
+quote PASS $PASS
+$(foo "$DIRECTORY1")
+$(foo "$DIRECTORY2")
+$(foo "$DIRECTORY3")
+quit
+END_SCRIPT

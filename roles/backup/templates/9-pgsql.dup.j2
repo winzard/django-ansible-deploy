@@ -1,0 +1,12 @@
+options = --no-encryption --name {{ hostname }}.pgsql
+tmpdir = /home/backups/pgsql/tmp
+
+[gpg]
+password = {{ backup_password }}
+[dest]
+keep = 7
+ftp_password = {{ backup_password }}
+desturl = {{ backup_dest }}/pgsql
+
+[source]
+include = /var/backups/pgsql/

@@ -44,5 +44,6 @@
 - include: setup_django_app.yml
   sudo: yes
   sudo_user: "{{ system_user }}"
+  notify: touch reload
   tags: deploy
 

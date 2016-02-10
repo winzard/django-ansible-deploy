@@ -59,8 +59,18 @@
 - name: Create the uWSGI reload file
   file: path={{ project_path }}/tmp/reload.txt
         owner={{ system_user }}
-    	group={{ system_group }}
+    	  group={{ system_group }}
         state=touch
+
+- name: Re-read the Supervisor config files
+  command: supervisorctl reread
+  tags:
+    - uwsgi
+
+- name: Update Supervisor to add the app in the process group
+  command: supervisorctl update
+  tags:
+    - uwsgi
 
 #- name: Create the uWSGI sock file
 #  file: path={{ project_path }}/tmp/uwsgi.sock
