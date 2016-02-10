@@ -13,7 +13,7 @@ hostname: localhost # force hostname for rabbitmq and django config. RABBITMQ WI
 run_django_db_migrations: yes
 run_django_collectstatic: yes
 
-known_hosts: ['github.com', 'bitbucket.com']
+# known_hosts: ['github.com', 'bitbucket.com']
 
 # Git settings.
 setup_git_repo: yes

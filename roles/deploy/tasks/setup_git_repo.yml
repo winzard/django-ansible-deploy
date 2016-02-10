@@ -7,16 +7,20 @@
                name="{{ item }}"
                state=present
                key="{{ lookup('file', '{{ item }}') }}"
-  with_items: known_hosts
+  with_items:
+    - github.com
+    - bitbucket.com
 
-#- name: Add required sites with repos in known_hosts
-#  sudo: yes
-#  sudo_user: "{{ system_user }}"
-#  known_hosts: path="{{ project_path }}/.ssh/known_hosts"
-#               name="{{ item }}"
-#               state=present
-#               key="{{ lookup('pipe', 'ssh-keyscan -t rsa {{ item }}') }}"
-#  with_items: known_hosts
+- name: Add required sites with repos in known_hosts
+  sudo: yes
+  sudo_user: "{{ system_user }}"
+  known_hosts: path="{{ project_path }}/.ssh/known_hosts"
+               name="{{ item }}"
+               state=present
+               key="{{ lookup('pipe', 'ssh-keyscan -t rsa {{ item }}') }}"
+  with_items: known_hosts
+  when: known_hosts is defined
+
 
 
 - name: Setup the Git repos and submodules (as separate repos)

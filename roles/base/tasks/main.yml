@@ -50,3 +50,8 @@
 - name: Install virtualenv
   pip: name=virtualenv
   tags: packages
+
+- include: create_swap_file.yml
+  sudo: yes
+  sudo_user: root
+  tags: packages
