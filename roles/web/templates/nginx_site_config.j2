@@ -36,6 +36,10 @@ server
             uwsgi_param UWSGI_CHDIR  {{ application_path }}/;
             uwsgi_param UWSGI_SCRIPT wsgi;
             client_max_body_size 50m;
+            {% if htpasswd_user %}
+            auth_basic "Closed site";
+            auth_basic_user_file {{ project_path }}/conf/htpasswd;
+            {% endif %}
         }
 
         location /static

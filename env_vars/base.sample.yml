@@ -6,6 +6,8 @@ git_repos: [ { repo: "git@github.com:sample/sample.git", branch: "master", dest:
 project_name: project
 application_name: application
 domain_name: example.com
+# htpasswd_user: "{{ project_name }}"
+# htpasswd_password: password
 database: postgresql # or mysql
 db_password: password
 

@@ -40,6 +40,7 @@
    - backupninja
    - python-pycurl
    - supervisor
+
   tags: packages
 
 - name: Install pip
@@ -49,6 +50,10 @@
 
 - name: Install virtualenv
   pip: name=virtualenv
+  tags: packages
+
+- name: Install passlib
+  pip: name=passlib
   tags: packages
 
 - include: create_swap_file.yml

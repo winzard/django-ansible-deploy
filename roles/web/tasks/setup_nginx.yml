@@ -4,12 +4,15 @@
   apt: name=nginx update_cache={{ update_apt_cache }} state=latest
   tags: packages
 
+- name: Close site under password for testing purposes
+  htpasswd:  path={{ project_conf_dir }}/htpasswd name={{ htpasswd_user}} password={{ htpasswd_password }} owner={{ system_user }} group={{ system_group }} mode=0640
+  when: htpasswd_user is defined
+
 - name: Create the Nginx configuration file
   template: src=nginx_site_config.j2
             dest={{ project_conf_dir }}/nginx_{{ application_name }}.conf
             backup=yes
   notify: reload nginx
-  
 
 - name: Ensure that the default site is disabled
   file: path=/etc/nginx/sites-enabled/default
@@ -24,3 +27,4 @@
 
 - name: Ensure Nginx service is started
   service: name=nginx state=started enabled=yes
+
