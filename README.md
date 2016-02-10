@@ -13,10 +13,11 @@ Ansible Playbook предназначен для быстрого разверт
 - Memcached
 - Celery
 - RabbitMQ
+- Backupninja
 
 Настройки для ролей хранятся в ```roles/role_name/vars/main.yml```. Общие настройки окружения в директории ```env_vars```.
 
-**Протестировано:** Ubuntu 12.04 LTS x64, Ubuntu 14.04 LTS x64
+**Протестировано:** Ubuntu 12.04 LTS x64, Ubuntu 14.04 LTS x64 на vscale.io
 
 ## Быстро посмотреть
 
