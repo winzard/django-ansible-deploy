@@ -36,7 +36,8 @@ server
             uwsgi_param UWSGI_CHDIR  {{ application_path }}/;
             uwsgi_param UWSGI_SCRIPT wsgi;
             client_max_body_size 50m;
-            {% if htpasswd_user %}
+            {% if htpasswd_user is defined %}
+            
             auth_basic "Closed site";
             auth_basic_user_file {{ project_path }}/conf/htpasswd;
             {% endif %}
