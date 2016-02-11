@@ -5,7 +5,7 @@
   tags: packages
 
 - name: Close site under password for testing purposes
-  htpasswd:  path={{ project_conf_dir }}/htpasswd name={{ htpasswd_user}} password={{ htpasswd_password }} owner={{ system_user }} group={{ system_group }} mode=0640
+  htpasswd:  path={{ project_conf_dir }}/htpasswd name={{ htpasswd_user}} password={{ htpasswd_password }} owner=root group=root mode=0640
   when: htpasswd_user is defined
 
 - name: Create the Nginx configuration file
