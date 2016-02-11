@@ -8,8 +8,8 @@ foo() {
         echo "mkdir $a"
         echo "cd $a"
         r=${r#*/}
-    echo "cd /backups"    
     done
+    echo "cd /"    
 }
 DIRECTORY1="backups/{{hostname}}/mysql"
 DIRECTORY2="backups/{{hostname}}/pgsql"
