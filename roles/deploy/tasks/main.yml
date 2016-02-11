@@ -1,13 +1,5 @@
 ---
 
-- name: import public variable file
-  include_vars: "public_key.yml"
-  no_log: False
-
-- name: import secret variable file
-  include_vars: secret_key.yml
-  no_log: False
-
 - name: Create directory for ssh keys
   file:
     name: "/home/{{ system_user }}/.ssh"
@@ -15,25 +7,39 @@
     group: "{{ system_group }}"
     state: directory
   no_log: False
+  tags: deploy
+
+- name: check deployment private key exists
+  local_action: stat path="/files/secret.key"
+  sudo: False
+  register: private_exists 
+  tags: deploy
 
 - name: copy deployment private key
   copy:
-    content: "{{ private_key_content }}"
+    src: "secret.key"
     dest: "/home/{{ system_user }}/.ssh/id_rsa"
     owner: "{{ system_user }}"
     group: "{{ system_group }}"
     mode: 0600
-  no_log: False
+  when: private_exists is defined and private_exists.stat.exists
+  tags: deploy
+
+- name: check deployment private key exists
+  local_action: stat path="/files/public.key"
+  sudo: False
+  register: public_exists 
+  tags: deploy
 
 - name: copy deployment public key
   copy:
-    content: "{{ public_key_content }}"
+    content: "public.key"
     dest: "/home/{{ system_user }}/.ssh/id_rsa.pub"
     owner: "{{ system_user }}"
     group: "{{ system_group }}"
     mode: 0600
-  no_log: False
-
+  when: public_exists is defined and public_exists.stat.exists
+  tags: deploy
 
 - include: setup_git_repo.yml
   tags: deploy
