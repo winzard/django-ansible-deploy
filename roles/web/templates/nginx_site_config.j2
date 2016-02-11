@@ -39,7 +39,7 @@ server
             {% if htpasswd_user is defined %}
             
             auth_basic "Closed site";
-            auth_basic_user_file {{ project_path }}/conf/htpasswd;
+            auth_basic_user_file {{ project_path }}/www/.htpasswd;
             {% endif %}
         }
 
