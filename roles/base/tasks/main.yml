@@ -38,8 +38,6 @@
    - zlib1g-dev
    - libxml2-dev
    - libxslt1-dev
-   - duplicity
-   - backupninja
    - python-pycurl
    - supervisor
 

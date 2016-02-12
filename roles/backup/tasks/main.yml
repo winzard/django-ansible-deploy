@@ -1,4 +1,14 @@
 ---
+- name: Install backup system packages
+  apt: name={{ item }} update_cache={{ update_apt_cache }} force=yes state=installed
+  sudo: yes
+  sudo_user: root
+  with_items:
+   - duplicity
+   - backupninja
+   - ncftp
+  tags: backup
+
 
 - name: Make local backup all Postgesql files
   sudo: yes

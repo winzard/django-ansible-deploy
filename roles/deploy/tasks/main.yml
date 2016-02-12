@@ -33,7 +33,7 @@
 
 - name: copy deployment public key
   copy:
-    content: "public.key"
+    src: "public.key"
     dest: "/home/{{ system_user }}/.ssh/id_rsa.pub"
     owner: "{{ system_user }}"
     group: "{{ system_group }}"

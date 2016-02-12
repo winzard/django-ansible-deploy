@@ -27,6 +27,15 @@
   rabbitmq_plugin: names=rabbitmq_management state=enabled
   notify: restart rabbitmq-server
 
+# - name: copy env config
+#   copy:
+#     src: "rabbitmq-env.conf"
+#     dest: "/etc/rabbitmq/rabbitmq-env.conf"
+#     owner: "root"
+#     group: "root"
+#     mode: 0644
+#   tags: deploy  
+
 - include: setup_vhosts.yml
 
 - include: setup_users.yml
