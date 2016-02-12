@@ -2,6 +2,16 @@
 - name: Change remote hostname
   hostname: name={{ hostname }}
 
+- name: copy hostname.sh
+  copy:
+    src: "hostname.sh"
+    dest: "/etc/init.d/hostname.sh"
+    owner: "root"
+    group: "root"
+    mode: 0755
+  tags: packages  
+
+
 - name: Change remote hosts file
   sudo: yes
   sudo_user: root

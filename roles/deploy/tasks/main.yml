@@ -10,7 +10,7 @@
   tags: deploy
 
 - name: check deployment private key exists
-  local_action: stat path="/files/secret.key"
+  local_action: stat path="roles/deploy/files/secret.key"
   sudo: False
   register: private_exists 
   tags: deploy
@@ -26,7 +26,7 @@
   tags: deploy
 
 - name: check deployment private key exists
-  local_action: stat path="/files/public.key"
+  local_action: stat path="roles/deploy/files/public.key"
   sudo: False
   register: public_exists 
   tags: deploy
