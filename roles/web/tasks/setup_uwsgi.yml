@@ -24,7 +24,6 @@
 
 - name: Making sure there's uwsgi emperor configuration
   template: src=emperor.ini.j2 dest=/etc/uwsgi/emperor.ini mode=0644 owner=root group=root
-  notify: restart uwsgi
 
 - name: Create the conf folder
   file: path={{ project_conf_dir }}
@@ -69,6 +68,7 @@
 
 - name: Update Supervisor to add the app in the process group
   command: supervisorctl update
+  notify: restart uwsgi
   tags:
     - uwsgi
 

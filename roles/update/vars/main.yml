@@ -1,0 +1,6 @@
+system_user: "{{ project_name }}"
+project_path: "/home/{{ project_name }}"
+application_path: "{{ project_path }}/www/{{ project_name }}"
+virtualenv_path: "{{ project_path }}/www/venv"
+django_settings_file: "{{ application_name }}.settings"
+celery_application_name: "celery_{{ application_name }}"

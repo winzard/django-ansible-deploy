@@ -1,0 +1,40 @@
+---
+
+- name: pull main and frondend repository
+  sudo: yes
+  sudo_user: "{{ system_user }}"
+  git: repo={{ item.repo }}
+       version="{{ item.branch }}"
+       dest="{{ application_path }}/{{ item.dest }}"
+       accept_hostkey=yes
+       update=yes
+       clone=no
+       recursive=no
+       force=yes
+       track_submodules=no
+       key_file="{{ project_path }}/.ssh/id_rsa"
+  with_items: git_repos
+
+- name: Run Django database migrations
+  django_manage:
+    command: migrate
+    app_path: "{{ application_path }}"
+    pythonpath: "{{ application_path }}"
+    virtualenv: "{{ virtualenv_path }}"
+    settings: "{{ django_settings_file }}"
+
+- name: Run Django collectstatic
+  django_manage:
+    command: collectstatic
+    app_path: "{{ application_path }}"
+    pythonpath: "{{ application_path }}"
+    virtualenv: "{{ virtualenv_path }}"
+    settings: "{{ django_settings_file }}"
+
+
+- name: touch/reload
+  file: path={{ project_path }}/tmp/reload.txt
+        state=touch
+
+- name: restart celery application
+  supervisorctl: name={{ celery_application_name }} state=restarted
