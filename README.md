@@ -14,6 +14,7 @@ Ansible Playbook предназначен для быстрого разверт
 - Celery
 - RabbitMQ
 - Backupninja
+- Glances
 
 Настройки для ролей хранятся в ```roles/role_name/vars/main.yml```. Общие настройки окружения в директории ```env_vars```.
 

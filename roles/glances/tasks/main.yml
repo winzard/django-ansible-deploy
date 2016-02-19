@@ -1,0 +1,38 @@
+---
+
+
+- name: pip | Make sure that glances server is installed
+  sudo: yes
+  sudo_user: root
+  pip: name="glances" state=latest
+  tags: monitoring
+
+- name: Create the Supervisor config file for glances server
+  template: src=supervisor_glances.conf.j2
+            dest=/etc/supervisor/conf.d/glances.conf
+  tags:
+    - monitoring
+
+- name: Re-read the Supervisor config files
+  command: supervisorctl reread
+  tags:
+    - monitoring
+
+- name: Update Supervisor to add the app in the process group
+  command: supervisorctl update
+  tags:
+    - monitoring
+
+- name: Check running applications managed by supervisor
+  shell: supervisorctl status
+  register: supervisor_applications
+  tags:
+    - monitoring
+
+
+- name: Restart glances server via supervisor
+  supervisorctl: name=glances state=restarted
+  when: supervisor_applications.stdout.find('glances') != -1
+  tags:
+    - monitoring
+
