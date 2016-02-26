@@ -1,0 +1,11 @@
+#!/bin/bash
+source {{ virtualenv_path}}/bin/activate
+
+cd {{ virtualenv_path }}/packages/{{ xapian_core }}
+./configure --prefix={{ virtualenv_path }} && make && make install
+
+
+cd {{ virtualenv_path }}/packages/{{ xapian_bindings }}
+./configure --prefix={{ virtualenv_path }} --with-python XAPIAN_CONFIG={{ virtualenv_path }}/bin/xapian-config && make && make install
+
+deactivate

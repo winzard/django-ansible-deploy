@@ -16,6 +16,7 @@
     - base
     - rabbitmq
     - web
+    - xapian
     - db
     - deploy
     - celery

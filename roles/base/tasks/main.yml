@@ -50,6 +50,7 @@
    - libxslt1-dev
    - python-pycurl
    - supervisor
+   - uuid-dev
 
   tags: packages
 

@@ -1,0 +1,6 @@
+---
+xapian_version: 1.2.18
+project_path: "/home/{{ project_name }}"
+virtualenv_path: "{{ project_path }}/www/venv"
+xapian_core: "xapian-core-{{xapian_version}}"
+xapian_bindings: "xapian-bindings-{{xapian_version}}"
