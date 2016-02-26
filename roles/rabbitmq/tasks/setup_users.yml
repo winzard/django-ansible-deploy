@@ -4,6 +4,7 @@
   rabbitmq_user: user={{ rabbitmq_admin_user }}
                  password={{ rabbitmq_admin_password }}
                  vhost=/
+                 node="rabbit@{{ hostname }}"
                  tags=administrator
                  state=present
 
@@ -11,6 +12,7 @@
   rabbitmq_user: user={{ rabbitmq_application_user }}
                  password={{ rabbitmq_application_password }}
                  vhost={{ rabbitmq_application_vhost }}
+                 node="rabbit@{{ hostname }}"
                  configure_priv=.*
                  read_priv=.*
                  write_priv=.*
@@ -18,5 +20,6 @@
 
 - name: Ensure the default 'guest' user doesn't exist
   rabbitmq_user: user=guest
+                 node="rabbit@{{ hostname }}"
                  state=absent
 
