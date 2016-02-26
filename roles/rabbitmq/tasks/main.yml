@@ -25,12 +25,12 @@
 
 - name: copy env config
   template:
-    src: "rabbitmq-env.conf"
+    src: "rabbitmq-env.conf.j2"
     dest: "/etc/rabbitmq/rabbitmq-env.conf"
     owner: "root"
     group: "root"
     mode: 0644
-  tags: deploy  
+  
 
 - name: Enable the RabbitMQ Management Console
   rabbitmq_plugin: names=rabbitmq_management state=enabled
