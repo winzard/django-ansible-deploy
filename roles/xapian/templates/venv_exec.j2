@@ -1,6 +1,8 @@
 #!/bin/bash
 source {{ virtualenv_path}}/bin/activate
 
+export LD_LIBRARY_PATH={{ virtualenv_path }}/lib
+
 cd {{ virtualenv_path }}/packages/{{ xapian_core }}
 ./configure --prefix={{ virtualenv_path }} && make && make install
 

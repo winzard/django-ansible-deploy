@@ -25,4 +25,4 @@
 - name: Install packages required by the Mysql inside virtualenv
   sudo: yes
   sudo_user: "{{ system_user }}"
-  pip: virtualenv={{ virtualenv_path }} name=mysqldb
+  pip: virtualenv={{ virtualenv_path }} name=Mysql-python
