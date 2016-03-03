@@ -1,9 +1,6 @@
 ---
 
 - name: Add required sites with repos in known_hosts
-  become: true
-  become_method: su
-  become_user: "{{ system_user }}"
   known_hosts: path="{{ project_path }}/.ssh/known_hosts"
                name="{{ item }}"
                state=present
@@ -13,9 +10,6 @@
     - bitbucket.com
 
 - name: Add required sites with repos in known_hosts
-  become: true
-  become_method: su
-  become_user: "{{ system_user }}"
   known_hosts: path="{{ project_path }}/.ssh/known_hosts"
                name="{{ item }}"
                state=present
@@ -26,9 +20,6 @@
 
 
 - name: Setup the Git repos and submodules (as separate repos)
-  become: true
-  become_method: su
-  become_user: "{{ system_user }}"
   git: repo={{ item.repo }}
        version="{{ item.branch }}"
        dest="{{ application_path }}/{{ item.dest }}"

@@ -46,9 +46,6 @@
   tags: deploy
 
 - include: setup_django_app.yml
-  become: true
-  become_method: su
-  become_user: "{{ system_user }}"
   notify: touch reload
   tags: deploy
 

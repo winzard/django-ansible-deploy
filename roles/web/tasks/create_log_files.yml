@@ -7,9 +7,6 @@
         state=directory
 
 - name: Create the application log file
-  become: true
-  become_method: su
-  become_user: "{{ system_user }}"
   command: touch {{ application_log_file }}
            creates={{ application_log_file }}
 
@@ -21,9 +18,6 @@
         state=file
 
 - name: Create the debug log file
-  become: true
-  become_method: su
-  become_user: "{{ system_user }}"
   command: touch {{ project_log_dir }}/debug.log
            creates={{ project_log_dir }}/debug.log
 
@@ -35,9 +29,6 @@
         state=file
 
 - name: Create http_errors log file
-  become: true
-  become_method: su
-  become_user: "{{ system_user }}"
   command: touch {{ project_log_dir }}/http_errors.log
            creates={{ project_log_dir }}/http_errors.log
 
