@@ -7,8 +7,9 @@
         state=directory
 
 - name: Create the application log file
-  sudo: yes
-  sudo_user: "{{ system_user }}"
+  become: true
+  become_method: su
+  become_user: "{{ system_user }}"
   command: touch {{ application_log_file }}
            creates={{ application_log_file }}
 
@@ -18,10 +19,11 @@
         group={{ system_group }}
         mode=0664
         state=file
-        
+
 - name: Create the debug log file
-  sudo: yes
-  sudo_user: "{{ system_user }}"
+  become: true
+  become_method: su
+  become_user: "{{ system_user }}"
   command: touch {{ project_log_dir }}/debug.log
            creates={{ project_log_dir }}/debug.log
 
@@ -33,8 +35,9 @@
         state=file
 
 - name: Create http_errors log file
-  sudo: yes
-  sudo_user: "{{ system_user }}"
+  become: true
+  become_method: su
+  become_user: "{{ system_user }}"
   command: touch {{ project_log_dir }}/http_errors.log
            creates={{ project_log_dir }}/http_errors.log
 

@@ -2,8 +2,9 @@
 
 - name: Setup a {{ application_name }} server
   hosts: all
-  sudo: yes
-  sudo_user: root
+  become: true
+  become_user: root
+  become_method: su
   remote_user: root
   vars:
     - setup_git_repo: yes

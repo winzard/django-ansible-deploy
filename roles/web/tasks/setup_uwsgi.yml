@@ -11,8 +11,9 @@
 
 - name: pip | Make sure that uwsgi is installed
   pip: name=uwsgi state=present
-  sudo: yes
-  sudo_user: root
+  become: true
+  become_user: root
+  become_method: su
   tags:
     - packages
 

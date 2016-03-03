@@ -1,8 +1,9 @@
 ---
 
 - name: pull main and frondend repository
-  sudo: yes
-  sudo_user: "{{ system_user }}"
+  become: true
+  become_method: su
+  become_user: "{{ system_user }}"
   git: repo={{ item.repo }}
        version="{{ item.branch }}"
        dest="{{ application_path }}/{{ item.dest }}"

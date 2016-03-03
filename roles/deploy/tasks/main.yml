@@ -11,7 +11,6 @@
 
 - name: check deployment private key exists
   local_action: stat path="roles/deploy/files/secret.key"
-  sudo: False
   register: private_exists 
   tags: deploy
 
@@ -27,7 +26,6 @@
 
 - name: check deployment private key exists
   local_action: stat path="roles/deploy/files/public.key"
-  sudo: False
   register: public_exists 
   tags: deploy
 
@@ -48,8 +46,9 @@
   tags: deploy
 
 - include: setup_django_app.yml
-  sudo: yes
-  sudo_user: "{{ system_user }}"
+  become: true
+  become_method: su
+  become_user: "{{ system_user }}"
   notify: touch reload
   tags: deploy
 
