@@ -1,9 +1,6 @@
 ---
 
-
 - name: pip | Make sure that glances server is installed
-  sudo: yes
-  sudo_user: root
   pip: name="glances" state=latest
   tags: monitoring
 

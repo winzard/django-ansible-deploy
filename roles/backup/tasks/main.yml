@@ -1,9 +1,6 @@
 ---
 - name: Install backup system packages
   apt: name={{ item }} update_cache={{ update_apt_cache }} force=yes state=installed
-  become: true
-  become_user: root
-  become_method: su
   with_items:
    - duplicity
    - backupninja
@@ -12,9 +9,6 @@
 
 
 - name: Make local backup all Postgesql files
-  become: true
-  become_user: root
-  become_method: su
   template: 
     src="10-all.pgsql.j2"
     dest="/etc/backup.d/10-all.pgsql"
@@ -26,9 +20,6 @@
   when: database == 'postgresql'
 
 - name: Make remote backup all Postgesql files
-  become: true
-  become_user: root
-  become_method: su
   template: 
     src="9-pgsql.dup.j2"
     dest="/etc/backup.d/9-pgsql.dup"
@@ -40,9 +31,6 @@
   when: database == 'postgresql'
 
 - name: Make local backup all MySQL files
-  become: true
-  become_user: root
-  become_method: su
   template: 
     src="10-all.mysql.j2"
     dest="/etc/backup.d/10-all.mysql"
@@ -54,9 +42,6 @@
   when: database == 'mysql'
 
 - name: Make remote backup all MySQL files
-  become: true
-  become_user: root
-  become_method: su
   template: 
     src="9-mysql.dup.j2"
     dest="/etc/backup.d/9-mysql.dup"
@@ -68,9 +53,6 @@
   when: database == 'mysql'
 
 - name: Make remote backup of project files
-  become: true
-  become_user: root
-  become_method: su
   template: 
     src="1-project.dup.j2"
     dest="/etc/backup.d/1-{{ project_name }}.dup"
