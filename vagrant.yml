@@ -2,8 +2,9 @@
 
 - name: Create a {{ application_name }} virtual machine via vagrant
   hosts: all
-  sudo: yes
-  sudo_user: root
+  become: true
+  become_user: root
+  become_method: sudo
   remote_user: vagrant
   vars:
     - setup_git_repo: yes
@@ -16,7 +17,7 @@
     - base
     - rabbitmq
     - web
-    - xapian
+    #- xapian
     - db
     - deploy
     - celery

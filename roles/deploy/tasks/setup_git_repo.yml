@@ -1,6 +1,9 @@
 ---
 
 - name: Add required sites with repos in known_hosts
+  become_user: "{{ system_user }}"
+  become: yes
+  become_method: sudo
   known_hosts: path="{{ project_path }}/.ssh/known_hosts"
                name="{{ item }}"
                state=present
@@ -10,6 +13,9 @@
     - bitbucket.com
 
 - name: Add required sites with repos in known_hosts
+  become_user: "{{ system_user }}"
+  become: yes
+  become_method: sudo
   known_hosts: path="{{ project_path }}/.ssh/known_hosts"
                name="{{ item }}"
                state=present
@@ -20,6 +26,9 @@
 
 
 - name: Setup the Git repos and submodules (as separate repos)
+  become_user: "{{ system_user }}"
+  become: yes
+  become_method: sudo
   git: repo={{ item.repo }}
        version="{{ item.branch }}"
        dest="{{ application_path }}/{{ item.dest }}"
@@ -35,6 +44,9 @@
 
 
 - name: Delete all .pyc files
+  become_user: "{{ system_user }}"
+  become: yes
+  become_method: sudo
   command: find . -name '*.pyc' -delete
   args:
     chdir: "{{ application_path }}"
