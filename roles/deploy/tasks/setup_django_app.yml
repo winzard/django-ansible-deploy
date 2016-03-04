@@ -1,16 +1,19 @@
 ---
 - name: Create local settings
-  become_user: "{{ system_user }}"
-  become: yes
-  become_method: sudo
   template: src=local_settings.py.j2
             dest={{ application_path }}/{{ project_name}}/local_settings.py
             backup=yes
 
+- name: Ensure that the application dir permissions are set properly
+  file: 
+      path: "{{ application_path }}"
+      recurse: yes
+      owner: "{{ system_user }}"
+      group: "{{ system_group }}"
+      mode: u=rwX,g=rw,o=rw
+
+
 - name: Run Django database migrations
-  become_user: "{{ system_user }}"
-  become: yes
-  become_method: sudo
   django_manage:
     command: migrate
     app_path: "{{ application_path }}"
@@ -22,9 +25,6 @@
   tags: django.migrate
 
 - name: Run Django collectstatic
-  become_user: "{{ system_user }}"
-  become: yes
-  become_method: sudo
   django_manage:
     command: collectstatic
     app_path: "{{ application_path }}"
@@ -36,9 +36,6 @@
 
 
 - name: Load data from fixtures
-  become_user: "{{ system_user }}"
-  become: yes
-  become_method: sudo
   django_manage:
     command: loaddata
     fixtures: "{{ fixtures }}"
