@@ -28,7 +28,7 @@
        recursive=no
        force=yes
        track_submodules=no
-       key_file="{{ project_path }}/.ssh/id_rsa"
+       key_file="~/.ssh/id_rsa"
   with_items: git_repos
   when: setup_git_repo is defined and setup_git_repo
   tags: git
