@@ -1,7 +1,7 @@
 ---
 - name: Create local settings
   template: src=local_settings.py.j2
-            dest={{ application_path }}/{{ project_name}}/local_settings.py
+            dest={{ application_path }}/{{ application_name }}/local_settings.py
             backup=yes
 
 - name: Ensure that the application dir permissions are set properly
