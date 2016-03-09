@@ -2,9 +2,10 @@
 
 - name: Setup a {{ application_name }} server
   hosts: all
-  sudo: yes
-  sudo_user: root
+  become: yes
+  become_user: root
   remote_user: root
+  become_method: sudo
   vars:
     - setup_git_repo: yes
     - update_apt_cache: yes
@@ -14,11 +15,11 @@
 
   roles:
     - base
-    - rabbitmq
+    #- rabbitmq
     - web
-    - xapian
+    #- xapian
     - db
     - deploy
-    - celery
-    - backup
-    - glances
+    #- celery
+    #- backup
+    #- glances

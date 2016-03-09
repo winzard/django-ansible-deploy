@@ -1,11 +1,11 @@
 ---
 # Database settings.
-db_user: "{{ application_name }}"
-db_name: "{{ application_name }}"
+db_user: "{{ project_name }}"
+db_name: "{{ project_name }}"
 
 # system user
-system_user: "{{ application_name }}"
-system_group: "{{ application_name }}"
+system_user: "{{ project_name }}"
+system_group: "{{ project_name }}"
 
 
 # Nginx settings.
@@ -17,8 +17,8 @@ ssl_key_password: password
 
 # RabbitMQ settings.
 rabbitmq_server_name: "{{ inventory_hostname }}"
-rabbitmq_application_vhost: "{{ application_name }}"
-rabbitmq_application_user: "{{ application_name }}"
+rabbitmq_application_vhost: "{{ project_name }}"
+rabbitmq_application_user: "{{ project_name }}"
 
 # Celery settings.
 celery_num_workers: 2

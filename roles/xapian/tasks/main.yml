@@ -1,39 +1,42 @@
 ---
 
-
-
 - name: Create packages directory in virtualenv
-  sudo: yes
-  sudo_user: root
+  become: yes
+  become_user: root
+  become_method: sudo
   file: path={{ virtualenv_path }}/packages
         owner=root
         group=root
         state=directory
 
 - name: download xapian core
-  sudo: yes
-  sudo_user: root
+  become: yes
+  become_user: root
+  become_method: sudo
   get_url: url="http://oligarchy.co.uk/xapian/{{xapian_version}}/{{ xapian_core }}.tar.xz" 
            dest="{{ virtualenv_path }}/packages/{{ xapian_core }}.tar.xz"
            mode=0755
 
 - name: download xapian bindings
-  sudo: yes
-  sudo_user: root
+  become: yes
+  become_user: root
+  become_method: sudo
   get_url: url="http://oligarchy.co.uk/xapian/{{xapian_version}}/{{ xapian_bindings }}.tar.xz" 
            dest="{{ virtualenv_path }}/packages/{{ xapian_bindings }}.tar.xz"
            mode=0755
 
 - name: extract core
-  sudo: yes
-  sudo_user: root
+  become: yes
+  become_user: root
+  become_method: sudo
   unarchive: src="{{ virtualenv_path }}/packages/{{ xapian_core }}.tar.xz" dest="{{ virtualenv_path }}/packages"
              copy=no 
              creates="{{ virtualenv_path }}/packages/{{ xapian_core }}"
 
 - name: extract bindings
-  sudo: yes
-  sudo_user: root
+  become: yes
+  become_user: root
+  become_method: sudo
   unarchive: src="{{ virtualenv_path }}/packages/{{ xapian_bindings }}.tar.xz" dest="{{ virtualenv_path }}/packages" 
              copy=no
              creates="{{ virtualenv_path }}/packages/{{ xapian_bindings }}"
@@ -44,8 +47,9 @@
             mode=755             
 
 - name: install xapian and xapian_bindings
-  sudo: yes
-  sudo_user: root
+  become: yes
+  become_user: root
+  become_method: sudo
   command: "{{ virtualenv_path }}/packages/venv_exec"
   args:
     creates: "{{ virtualenv_path }}/lib/python2.7/site-packages/xapian/_xapian.so"

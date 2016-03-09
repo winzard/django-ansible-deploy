@@ -13,8 +13,9 @@
 
 
 - name: Change remote hosts file
-  sudo: yes
-  sudo_user: root
+  become: yes
+  become_user: root
+  become_method: sudo
   lineinfile:
     dest=/etc/hosts
     line="127.0.0.1 {{ hostname }}"
@@ -27,8 +28,9 @@
 
 - name: Install base packages
   apt: name={{ item }} update_cache={{ update_apt_cache }} force=yes state=installed
-  sudo: yes
-  sudo_user: root
+  become: yes
+  become_user: root
+  become_method: sudo
   with_items:
    - build-essential
    - nano
@@ -55,7 +57,6 @@
   tags: packages
 
 - name: Install pip
-  sudo: yes
   easy_install: name=pip
   tags: packages
 
@@ -68,6 +69,7 @@
   tags: packages
 
 - include: create_swap_file.yml
-  sudo: yes
-  sudo_user: root
+  become: yes
+  become_user: root
+  become_method: sudo
   tags: packages
