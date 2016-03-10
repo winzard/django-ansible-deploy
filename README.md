@@ -31,7 +31,8 @@ Ansible Playbook предназначен для быстрого разверт
 - [Vagrant](http://www.vagrantup.com/downloads.html)
 - [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
-Пример настроек находится в файле base.sample.yml директории env_vars. Скопируйте его в новый файл base.yml
+Настройки для отдельных проектов могут располагаться в директории inventories. Внутри нее следует создать папку с именем проекта, а в ней файл hosts для указания серверов и папку group_vars для настроек.
+Пример настроек находится в файле group_vars/all.yml директории ```inventories/sample```. Названия файлов в group_vars должны соответствовать группам серверов, определенных в hosts.
 
 Структура вашего проекта Django должна быть каноничной:
 
@@ -111,28 +112,19 @@ vagrant destroy
 
 ## Запуск Ansible Playbook на реальном сервере
 
-Сначала создайте файл inventory file:
+Допустим, вы хотите развернуть проект kawabanga на сервер kawabanga.org. В папке inventories создайте подпапку kawabanga, а в ней подпапку group_vars. Скопируйте в group_vars файл с настройками из '''sample/group_vars/all.yml'''. Отредактируйте настройки.
+Создайте в папке inventories/kawabanga файл hosts. В нем пропишите
 
 ```
-# development
+[all]
+kawabanga.org
 
-[all:vars]
-env=dev
-
-[webservers]
-webserver1.example.com
-webserver2.example.com
-
-[dbservers]
-dbserver1.example.com
 ```
-
-Затем создайте playbook для сервера. См. для примера [webservers.yml](webservers.yml).
 
 Запустите сценарий:
 
 ```
-ansible-playbook -i development webservers.yml --ask-vault-pass
+ansible-playbook -i inventories/kawabanga/hosts production.yml
 ```
 
 ## Полезные ссылки, которые уже поздно читать

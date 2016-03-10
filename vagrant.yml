@@ -1,6 +1,6 @@
 ---
 
-- name: Create a {{ application_name }} virtual machine via vagrant
+- name: Create a virtual machine via vagrant
   hosts: all
   become: yes
   become_user: root
@@ -10,15 +10,14 @@
     - setup_git_repo: yes
     - update_apt_cache: yes
   vars_files:
-    - env_vars/base.yml
-    - env_vars/vagrant.yml
+    - env_vars/common.yml
 
   roles:
     - base
-    #- rabbitmq
+    - rabbitmq
     - web
-    #- xapian
+    - xapian
     - db
     - deploy
-    #- celery
+    - celery
 

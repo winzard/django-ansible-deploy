@@ -1,6 +1,6 @@
 ---
 
-- name: Setup a {{ application_name }} server
+- name: Setup a server
   hosts: all
   become: yes
   become_user: root
@@ -10,16 +10,15 @@
     - setup_git_repo: yes
     - update_apt_cache: yes
   vars_files:
-    - env_vars/base.yml
-    - env_vars/vagrant.yml
+    - env_vars/common.yml
 
   roles:
     - base
-    #- rabbitmq
+    - rabbitmq
     - web
-    #- xapian
+    - xapian
     - db
     - deploy
-    #- celery
-    #- backup
-    #- glances
+    - celery
+    - backup
+    - glances
