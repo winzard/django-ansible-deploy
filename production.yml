@@ -5,7 +5,7 @@
   become: yes
   become_user: root
   remote_user: root
-  become_method: sudo
+  become_method: su
   vars:
     - setup_git_repo: yes
     - update_apt_cache: yes
@@ -13,9 +13,9 @@
     - env_vars/common.yml
 
   roles:
-    - base
-    - rabbitmq
-    - web
+    #- base
+    #- rabbitmq
+    #- web
     - xapian
     - db
     - deploy

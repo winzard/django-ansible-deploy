@@ -15,7 +15,7 @@
 - name: Ensure database is created
   become: yes
   become_user: postgres
-  become_method: sudo
+  become_method: su
   postgresql_db: name={{ db_name }}
                  encoding='UTF-8'
                  lc_collate='en_US.UTF-8'
@@ -26,7 +26,7 @@
 - name: Ensure user has access to the database
   become: yes
   become_user: postgres
-  become_method: sudo
+  become_method: su
   postgresql_user: db={{ db_name }}
                    name={{ db_user }}
                    password={{ db_password }}
@@ -36,14 +36,14 @@
 - name: Ensure user does not have unnecessary privileges
   become: yes
   become_user: postgres
-  become_method: sudo
+  become_method: su
   postgresql_user: name={{ db_user }}
                    role_attr_flags=NOSUPERUSER,NOCREATEDB
                    state=present
 
 - name: Install packages required by the PostgreSQL inside virtualenv
   become: yes
-  become_method: sudo
+  become_method: su
   become_user: "{{ system_user }}"
   pip: virtualenv={{ virtualenv_path }} name=psycopg2
 

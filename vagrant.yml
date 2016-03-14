@@ -4,7 +4,7 @@
   hosts: all
   become: yes
   become_user: root
-  become_method: sudo
+  become_method: su
   remote_user: vagrant
   vars:
     - setup_git_repo: yes

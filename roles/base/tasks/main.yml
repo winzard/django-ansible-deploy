@@ -15,7 +15,7 @@
 - name: Change remote hosts file
   become: yes
   become_user: root
-  become_method: sudo
+  become_method: su
   lineinfile:
     dest=/etc/hosts
     line="127.0.0.1 {{ hostname }}"
@@ -30,7 +30,7 @@
   apt: name={{ item }} update_cache={{ update_apt_cache }} force=yes state=installed
   become: yes
   become_user: root
-  become_method: sudo
+  become_method: su
   with_items:
    - build-essential
    - nano
@@ -71,5 +71,5 @@
 - include: create_swap_file.yml
   become: yes
   become_user: root
-  become_method: sudo
+  become_method: su
   tags: packages

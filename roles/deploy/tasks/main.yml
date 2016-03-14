@@ -49,7 +49,7 @@
 
 - include: setup_django_app.yml
   become: yes
-  become_method: sudo
+  become_method: su
   become_user: "{{ system_user }}"
   notify: touch reload
   tags: deploy

@@ -2,7 +2,7 @@
 
 - name: Add required sites with repos in known_hosts
   become: yes
-  become_method: sudo
+  become_method: su
   become_user: "{{ system_user }}"
   known_hosts: path="{{ project_path }}/.ssh/known_hosts"
                name="{{ item }}"
@@ -14,7 +14,7 @@
 
 - name: Add required sites with repos in known_hosts
   become: yes
-  become_method: sudo
+  become_method: su
   become_user: "{{ system_user }}"
   known_hosts: path="{{ project_path }}/.ssh/known_hosts"
                name="{{ item }}"
@@ -27,7 +27,7 @@
 
 - name: Setup the Git repos and submodules (as separate repos)
   become: yes
-  become_method: sudo
+  become_method: su
   become_user: "{{ system_user }}"
   git: repo={{ item.repo }}
        version="{{ item.branch }}"

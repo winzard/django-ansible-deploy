@@ -4,7 +4,7 @@
   hosts: webservers
   become: yes
   become_user: root
-  become_method: sudo
+  become_method: su
   remote_user: root
   vars:
     - update_apt_cache: yes
