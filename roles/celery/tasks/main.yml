@@ -1,8 +1,9 @@
 ---
 
 - name: pip | Make sure that celery is installed
-  sudo: yes
-  sudo_user: "{{ system_user }}"
+  become: yes
+  become_user: "{{ system_user }}"
+  become_method: sudo
   pip: name="celery" state=latest virtualenv={{ virtualenv_path }}
 
   tags:
