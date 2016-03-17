@@ -1,11 +1,4 @@
 ---
-- name: Set git options
-  become: no
-  shell: "git config —global core.filemode false"
-
-- name: Set git options
-  become: no
-  shell: "git -c core.filemode=false diff"
     
 - name: Add required sites with repos in known_hosts
   become: no
@@ -48,7 +41,18 @@
   when: setup_git_repo is defined and setup_git_repo
   tags: git
 
+- name: Set git options
+  become: no
+  shell: "git config --global core.filemode false"
+  args:
+    chdir: "{{ application_path }}"
 
+- name: Set git options
+  become: no
+  shell: "git -c core.filemode=false diff"
+  args:
+    chdir: "{{ application_path }}"
+  
 - name: Delete all .pyc files
   command: find . -name '*.pyc' -delete
   args:

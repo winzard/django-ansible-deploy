@@ -9,11 +9,12 @@
     become: no
     pip: virtualenv={{ virtualenv_path }} requirements={{ requirements_file }}
 
+  - name: Read list of extra system packages to install
+    shell: "cat {{ application_path }}/{{ extra_apt }}"
+    register: command_result
+    when: extra_apt is defined  
+
   - name: Install additional system packages
-    become: yes
-    become_method: su
-    become_user: root
-    shell: name={{ application_path }}/{{ extra_install }}
-           creates={{ application_path }}/{{ extra_install }}.done
-    tags: packages
-    when: extra_install is defined
+    apt: name={{ item }} update_cache={{ update_apt_cache }} force=yes state=installed
+    with_items: "{{command_result.stdout_lines}}"
+    when: command_result is defined  

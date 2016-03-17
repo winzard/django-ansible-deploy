@@ -4,7 +4,7 @@
   hosts: all
   become: yes
   become_user: root
-  become_method: su
+  become_method: sudo
   remote_user: vagrant
   vars:
     - setup_git_repo: yes
@@ -13,11 +13,11 @@
     - env_vars/common.yml
 
   roles:
-    - base
-    - rabbitmq
-    - web
-    - xapian
-    - db
+    #- base
+    #- rabbitmq
+    #- web
+    #- xapian
+    #- db
     - deploy
-    - celery
+    #- celery
 

@@ -17,9 +17,6 @@
            mode=0755
 
 - name: extract core
-  become: yes
-  become_user: root
-  become_method: su
   shell: "tar xf {{ virtualenv_path }}/packages/{{ xapian_core }}.tar.xz"
   args:
        creates: "{{ virtualenv_path }}/packages/{{ xapian_core }}"
