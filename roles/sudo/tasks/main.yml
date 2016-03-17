@@ -1,0 +1,13 @@
+---
+- name: add user to sudoers
+  become: true
+  become_method: su
+  become_user: root
+  user: name="{{ ansible_ssh_user }}" groups="{{ ansible_ssh_user }},sudo" state=present
+  register: user_task
+  
+  
+- name: Kill open ssh sessions
+  shell: "ps -ef | grep sshd | grep `whoami` | awk '{print \"kill -9\", $2}' | sh"
+  when: user_task | changed
+  failed_when: false

@@ -13,6 +13,7 @@
     - env_vars/common.yml
 
   roles:
+    - sudo
     - base
     - rabbitmq
     - web
@@ -22,3 +23,7 @@
     - celery
     - backup
     - glances
+
+  post_tasks:
+   - shell: "deluser {{ ansible_ssh_user }} sudo"
+   - user: name="{{ ansible_ssh_user }}" group="{{ ansible_ssh_user }}" groups="{{ system_group }}" state=present

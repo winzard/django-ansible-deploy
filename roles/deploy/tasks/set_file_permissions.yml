@@ -8,11 +8,11 @@
       recurse: yes
       mode: u=rwX,g=rwX,o=rX
 
-- name: Ensure that the virtualenv file permissions are set properly
+- name: Set the virtualenv file permissions to deployman
   file: 
       path: "{{ virtualenv_path }}"
-      owner: "{{ system_user }}"
-      group: "{{ system_group }}"
+      owner: "{{ deployman }}"
+      group: "{{ deployman }}"
       recurse: yes
       mode: u=rwX,g=rw,o=rw
 

@@ -17,14 +17,17 @@
            mode=0755
 
 - name: extract core
-  unarchive: src="{{ virtualenv_path }}/packages/{{ xapian_core }}.tar.xz" dest="{{ virtualenv_path }}/packages"
-             copy=no 
-             creates="{{ virtualenv_path }}/packages/{{ xapian_core }}"
+  become: yes
+  become_user: root
+  become_method: su
+  shell: "tar xf {{ virtualenv_path }}/packages/{{ xapian_core }}.tar.xz"
+  args:
+       creates: "{{ virtualenv_path }}/packages/{{ xapian_core }}"
 
 - name: extract bindings
-  unarchive: src="{{ virtualenv_path }}/packages/{{ xapian_bindings }}.tar.xz" dest="{{ virtualenv_path }}/packages" 
-             copy=no
-             creates="{{ virtualenv_path }}/packages/{{ xapian_bindings }}"
+  shell: "tar xf {{ virtualenv_path }}/packages/{{ xapian_bindings }}.tar.xz"
+  args:
+      creates: "{{ virtualenv_path }}/packages/{{ xapian_bindings }}"
 
 - name: Create virtualenv executable
   template: src=venv_exec.j2

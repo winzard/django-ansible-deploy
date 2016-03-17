@@ -9,15 +9,13 @@
    - python-psycopg2
   tags: packages
 
-- name: Ensure the PostgreSQL service is running
-  service: name=postgresql state=started enabled=yes
-
 - name: Ensure database is created
   become: yes
+  become_method: sudo
   become_user: postgres
-  become_method: su
   postgresql_db: name={{ db_name }}
                  encoding='UTF-8'
+                 login_user=postgres
                  lc_collate='en_US.UTF-8'
                  lc_ctype='en_US.UTF-8'
                  template='template0'
@@ -25,8 +23,8 @@
 
 - name: Ensure user has access to the database
   become: yes
+  become_method: sudo
   become_user: postgres
-  become_method: su
   postgresql_user: db={{ db_name }}
                    name={{ db_user }}
                    password={{ db_password }}
@@ -35,16 +33,13 @@
 
 - name: Ensure user does not have unnecessary privileges
   become: yes
+  become_method: sudo
   become_user: postgres
-  become_method: su
   postgresql_user: name={{ db_user }}
                    role_attr_flags=NOSUPERUSER,NOCREATEDB
                    state=present
 
 - name: Install packages required by the PostgreSQL inside virtualenv
-  become: yes
-  become_method: su
-  become_user: "{{ system_user }}"
   pip: virtualenv={{ virtualenv_path }} name=psycopg2
 
 

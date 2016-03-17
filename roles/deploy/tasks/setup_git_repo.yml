@@ -1,10 +1,8 @@
 ---
 
 - name: Add required sites with repos in known_hosts
-  become: yes
-  become_method: su
-  become_user: "{{ system_user }}"
-  known_hosts: path="{{ project_path }}/.ssh/known_hosts"
+  become: no
+  known_hosts: path="~/.ssh/known_hosts"
                name="{{ item }}"
                state=present
                key="{{ lookup('file', '{{ item }}') }}"
@@ -13,22 +11,23 @@
     - bitbucket.com
 
 - name: Add required sites with repos in known_hosts
-  become: yes
-  become_method: su
-  become_user: "{{ system_user }}"
-  known_hosts: path="{{ project_path }}/.ssh/known_hosts"
+  become: no
+  known_hosts: path="~/.ssh/known_hosts"
                name="{{ item }}"
                state=present
                key="{{ lookup('pipe', 'ssh-keyscan -H {{ item }}') }}"
   with_items: known_hosts
   when: known_hosts is defined
 
-
+- name: Set application path permissions to deployman
+  file: path={{ application_path }}
+        recurse=yes
+        owner={{ deployman }}
+        group={{ deployman }}
+        state=directory
 
 - name: Setup the Git repos and submodules (as separate repos)
-  become: yes
-  become_method: su
-  become_user: "{{ system_user }}"
+  become: no
   git: repo={{ item.repo }}
        version="{{ item.branch }}"
        dest="{{ application_path }}/{{ item.dest }}"
@@ -37,7 +36,7 @@
        recursive=no
        force=yes
        track_submodules=no
-       key_file="{{ project_path }}/.ssh/id_rsa"
+       key_file="~/.ssh/id_rsa"
   with_items: git_repos
   when: setup_git_repo is defined and setup_git_repo
   tags: git

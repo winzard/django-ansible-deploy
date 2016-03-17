@@ -30,7 +30,7 @@ Ansible Playbook предназначен для быстрого разверт
 - [Ansible](http://docs.ansible.com/intro_installation.html)
 - [Vagrant](http://www.vagrantup.com/downloads.html)
 - [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
-
+ 
 Настройки для отдельных проектов могут располагаться в директории inventories. Внутри нее следует создать папку с именем проекта, а в ней файл hosts для указания серверов и папку group_vars для настроек.
 Пример настроек находится в файле group_vars/all.yml директории ```inventories/sample```. Названия файлов в group_vars должны соответствовать группам серверов, определенных в hosts.
 
@@ -126,6 +126,13 @@ kawabanga.org
 ```
 ansible-playbook -i inventories/kawabanga/hosts production.yml
 ```
+
+Если пользователь, которым вы заходите на сервер, не состоит в sudoers по соображениям безопасности, используйте сценарий nosudoers.yml
+
+```
+ansible-playbook -i inventories/kawabanga/hosts nosudoers.yml --ask-become-pass --ask-pass
+```
+
 
 ## Полезные ссылки, которые уже поздно читать
 
