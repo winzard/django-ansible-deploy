@@ -1,9 +1,6 @@
 ---
 
 - name: Create the virtualenv
-  become: yes
-  become_method: sudo
-  become_user: "{{ system_user }}"
   command: virtualenv {{ virtualenv_path }} --no-site-packages
            creates={{ virtualenv_path }}/bin/activate
 

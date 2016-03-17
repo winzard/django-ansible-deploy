@@ -6,7 +6,7 @@ db_name: "{{ project_name }}"
 # system user
 system_user: "{{ project_name }}"
 system_group: "{{ project_name }}"
-
+deployman: "{{ ansible_ssh_user }}"
 
 # Nginx settings.
 

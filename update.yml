@@ -4,7 +4,7 @@
   hosts: all
   become: yes
   become_user: root
-  become_methon: sudo
+  become_methon: su
   remote_user: root
   vars_files:
     - env_vars/common.yml

@@ -1,11 +1,11 @@
 ---
 
-- name: Create a virtual machine via vagrant
+- name: Setup a server
   hosts: all
   become: yes
   become_user: root
+  remote_user: root
   become_method: su
-  remote_user: vagrant
   vars:
     - setup_git_repo: yes
     - update_apt_cache: yes
@@ -13,6 +13,7 @@
     - env_vars/common.yml
 
   roles:
+    - sudo
     - base
     - rabbitmq
     - web
@@ -20,4 +21,9 @@
     - db
     - deploy
     - celery
+    - backup
+    - glances
 
+  post_tasks:
+   - shell: "deluser {{ ansible_ssh_user }} sudo"
+   - user: name="{{ ansible_ssh_user }}" group="{{ ansible_ssh_user }}" groups="{{ system_group }}" state=present

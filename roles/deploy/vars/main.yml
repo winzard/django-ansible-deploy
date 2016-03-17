@@ -11,4 +11,5 @@ requirements_file: "{{ application_path }}/requirements.txt"
 
 
 vassals_path: "/etc/uwsgi/vassals"
+deployman: "{{ ansible_ssh_user }}"
 

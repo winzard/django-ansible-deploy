@@ -1,10 +1,11 @@
 ---
 
 - name: Create directory for ssh keys
+  become: no
   file:
-    name: "/home/{{ system_user }}/.ssh"
-    owner: "{{ system_user }}"
-    group: "{{ system_group }}"
+    name: "~/.ssh"
+    owner: "{{ deployman }}"
+    group: "{{ deployman }}"
     state: directory
   no_log: False
   tags: deploy
@@ -16,11 +17,12 @@
   tags: deploy
 
 - name: copy deployment private key
+  become: no
   copy:
     src: "secret.key"
-    dest: "/home/{{ system_user }}/.ssh/id_rsa"
-    owner: "{{ system_user }}"
-    group: "{{ system_group }}"
+    dest: "~/.ssh/id_rsa"
+    owner: "{{ deployman }}"
+    group: "{{ deployman }}"
     mode: 0600
   when: private_exists is defined and private_exists.stat.exists
   tags: deploy
@@ -32,11 +34,12 @@
   tags: deploy
 
 - name: copy deployment public key
+  become: no
   copy:
     src: "public.key"
-    dest: "/home/{{ system_user }}/.ssh/id_rsa.pub"
-    owner: "{{ system_user }}"
-    group: "{{ system_group }}"
+    dest: "~/.ssh/id_rsa.pub"
+    owner: "{{ deployman }}"
+    group: "{{ deployman }}"
     mode: 0600
   when: public_exists is defined and public_exists.stat.exists
   tags: deploy
@@ -44,8 +47,18 @@
 - include: setup_git_repo.yml
   tags: deploy
 
+- include: set_file_permissions.yml
+
 - include: install_requirements.yml
   tags: deploy
+
+- name: Ensure that the virtualenv file permissions are set properly
+  file: 
+      path: "{{ virtualenv_path }}"
+      owner: "{{ system_user }}"
+      group: "{{ system_group }}"
+      recurse: yes
+      mode: u=rwX,g=rw,o=rw
 
 - include: setup_django_app.yml
   become: yes

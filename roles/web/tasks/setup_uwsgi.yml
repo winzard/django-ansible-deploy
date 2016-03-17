@@ -11,9 +11,6 @@
 
 - name: pip | Make sure that uwsgi is installed
   pip: name=uwsgi state=present
-  become: yes
-  become_user: root
-  become_method: sudo
   tags:
     - packages
 
@@ -59,7 +56,8 @@
 - name: Create the uWSGI reload file
   file: path={{ project_path }}/tmp/reload.txt
         owner={{ system_user }}
-    	  group={{ system_group }}
+    	group={{ system_group }}
+        mode=0664
         state=touch
 
 - name: Re-read the Supervisor config files
