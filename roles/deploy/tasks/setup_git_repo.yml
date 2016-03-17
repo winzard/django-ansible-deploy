@@ -1,5 +1,12 @@
 ---
+- name: Set git options
+  become: no
+  shell: "git config —global core.filemode false"
 
+- name: Set git options
+  become: no
+  shell: "git -c core.filemode=false diff"
+    
 - name: Add required sites with repos in known_hosts
   become: no
   known_hosts: path="~/.ssh/known_hosts"
