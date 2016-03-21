@@ -23,7 +23,4 @@
                    state=present
 
 - name: Install packages required by the Mysql inside virtualenv
-  become: yes
-  become_method: sudo
-  become_user: "{{ system_user }}"
   pip: virtualenv={{ virtualenv_path }} name=Mysql-python
