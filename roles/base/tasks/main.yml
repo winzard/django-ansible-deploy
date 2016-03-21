@@ -9,7 +9,7 @@
     owner: "root"
     group: "root"
     mode: 0755
-  tags: packages  
+  tags: packages
 
 
 - name: Change remote hosts file
@@ -47,6 +47,8 @@
    - python-pycurl
    - supervisor
    - uuid-dev
+   - libgd2-noxpm-dev
+   - libssl-dev
 
   tags: packages
 
