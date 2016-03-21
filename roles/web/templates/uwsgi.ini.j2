@@ -2,12 +2,12 @@
     socket = {{project_path}}/tmp/uwsgi.sock
     processes = 5
     virtualenv = {{ virtualenv_path }}
+    env = LANG=ru_RU.utf8
+    env = LC_ALL=ru_RU.utf8
+    env = LC_LANG=ru_RU.utf8
+    env = DJANGO_SETTINGS_MODULE={{ application_name }}.settings
     module = {{ project_name }}.wsgi
     chdir = {{ application_path }}/
-    env = DJANGO_SETTINGS_MODULE={{ application_name }}.settings
-    env LANG="ru_RU.utf8"
-    env LC_ALL="ru_RU.UTF-8"
-    env LC_LANG="ru_RU.UTF-8"
     master = 1
     uid = {{ system_user_id.stdout }}
     harakiri = 30

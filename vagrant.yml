@@ -13,11 +13,11 @@
     - env_vars/common.yml
 
   roles:
-    #- base
-    #- rabbitmq
-    #- web
-    #- xapian
-    #- db
+    - base
+    - rabbitmq
+    - web
+    - xapian
+    - db
     - deploy
-    #- celery
+    - celery
 
