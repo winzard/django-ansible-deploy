@@ -5,7 +5,7 @@
         owner=root
         group=root
         state=directory
-
+        
 - name: download xapian core
   get_url: url="http://oligarchy.co.uk/xapian/{{xapian_version}}/{{ xapian_core }}.tar.xz" 
            dest="{{ virtualenv_path }}/packages/{{ xapian_core }}.tar.xz"
@@ -17,14 +17,11 @@
            mode=0755
 
 - name: extract core
-  shell: "tar xf {{ virtualenv_path }}/packages/{{ xapian_core }}.tar.xz"
-  args:
-       creates: "{{ virtualenv_path }}/packages/{{ xapian_core }}"
+  unarchive: src="{{ virtualenv_path }}/packages/{{ xapian_core }}.tar.xz" dest="{{ virtualenv_path }}/packages/" copy=no
+  
 
 - name: extract bindings
-  shell: "tar xf {{ virtualenv_path }}/packages/{{ xapian_bindings }}.tar.xz"
-  args:
-      creates: "{{ virtualenv_path }}/packages/{{ xapian_bindings }}"
+  unarchive: src="{{ virtualenv_path }}/packages/{{ xapian_bindings }}.tar.xz" dest="{{ virtualenv_path }}/packages/" copy=no
 
 - name: Create virtualenv executable
   template: src=venv_exec.j2

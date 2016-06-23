@@ -1,9 +1,6 @@
 ---
 
 - name: pip | Make sure that celery is installed
-  become: yes
-  become_user: "{{ system_user }}"
-  become_method: sudo
   pip: name="celery" state=latest virtualenv={{ virtualenv_path }}
 
   tags:
@@ -11,7 +8,7 @@
 
 - include: copy_scripts.yml
 
-- include: setup_supervisor.yml
+#- include: setup_supervisor.yml
 
 - name: Check running applications managed by supervisor
   shell: supervisorctl status

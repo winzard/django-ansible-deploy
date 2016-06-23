@@ -5,10 +5,10 @@
   tags:
     - packages
 
-- name: Ensure supervisor service is started
-  service: name=supervisor state=started enabled=yes
-  tags:
-    - packages
+#- name: Ensure supervisor service is started
+#  service: name=supervisord state=started enabled=yes
+#  tags:
+#    - packages
 
 - name: Create the Supervisor config file for uWSGI
   template: src=emperor.ini.j2

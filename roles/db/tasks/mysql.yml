@@ -14,12 +14,16 @@
 - name: Ensure database is created
   mysql_db: name={{ db_name }}
                  encoding=utf8
+                 login_password={{ db_root_password }}
+                 login_user="root"
                  state=present
 
 - name: Ensure user has access to the database
   mysql_user:      name={{ db_user }}
                    password={{ db_password }}
                    priv={{ db_name }}.*:ALL
+                   login_password={{ db_root_password }}
+                   login_user="root"
                    state=present
 
 - name: Install packages required by the Mysql inside virtualenv
