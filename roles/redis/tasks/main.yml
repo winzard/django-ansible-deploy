@@ -6,4 +6,4 @@
     - redis-server
 
 - name: Ensure that the Redis service is running
-  service: name=rabbitmq-server state=started enabled=yes
+  service: name=redis-server state=started enabled=yes
