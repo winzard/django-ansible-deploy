@@ -31,11 +31,17 @@ DATABASES = {
 
 
 
-CELERY_RESULT_BACKEND = 'celery.backends.amqp:AMQPBackend'
+
 CELERY_TASK_SERIALIZER = "json"
 DO_NOT_SEND = True
 AUTH_USER_EMAIL_UNIQUE = True
 MAILQUEUE_CELERY = True
 MAILQUEUE_QUEUE_UP = True
 ALLOWED_HOSTS = ["{{ domain_name }}", "www.{{ domain_name}}"]
+{% if rabbitmq_admin_user %}
+CELERY_RESULT_BACKEND = 'celery.backends.amqp:AMQPBackend'
 BROKER_URL="amqp://{{ rabbitmq_application_user }}:{{ rabbitmq_application_password }}@{{ hostname }}/{{ rabbitmq_application_vhost }}"
+{% else %}
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/{{ redis_db or 0 }}'
+BROKER_URL=CELERY_RESULT_BACKEND
+{% endif %}

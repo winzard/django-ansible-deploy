@@ -1,27 +1,27 @@
 ---
-#- name: Change remote hostname
-#  hostname: name={{ hostname }}
+- name: Change remote hostname
+  hostname: name={{ hostname }}
 
-#- name: copy hostname.sh
-#  copy:
-#    src: "hostname.sh"
-#    dest: "/etc/init.d/hostname.sh"
-#    owner: "root"
-#    group: "root"
-#    mode: 0755
-#  tags: packages
+- name: copy hostname.sh
+  copy:
+    src: "hostname.sh"
+    dest: "/etc/init.d/hostname.sh"
+    owner: "root"
+    group: "root"
+    mode: 0755
+  tags: packages
 
 
-#- name: Change remote hosts file
-#  lineinfile:
-#    dest=/etc/hosts
-#    line="127.0.0.1 {{ hostname }}"
-#    state=present
-#    insertafter=EOF
-#    owner=root
-#    group=root
-#    mode=0644
-#    create=True
+- name: Change remote hosts file
+  lineinfile:
+    dest=/etc/hosts
+    line="127.0.0.1 {{ hostname }}"
+    state=present
+    insertafter=EOF
+    owner=root
+    group=root
+    mode=0644
+    create=True
 
 - name: Install base packages
   apt: name={{ item }} update_cache={{ update_apt_cache }} force=yes state=installed
@@ -50,6 +50,7 @@
    - uuid-dev
    - libgd2-noxpm-dev
    - libssl-dev
+   
 
   tags: packages
 

@@ -14,7 +14,8 @@
 
   roles:
     - base
-    - rabbitmq
+    #- rabbitmq
+    - redis
     - web
     - xapian
     - db

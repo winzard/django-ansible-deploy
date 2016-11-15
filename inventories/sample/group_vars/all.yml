@@ -21,11 +21,11 @@ run_django_collectstatic: yes
 setup_git_repo: yes
 
 # Rabbit MQ
-rabbitmq_admin_user: admin
-rabbitmq_admin_password: password
-rabbitmq_application_password: password
+#rabbitmq_admin_user: admin
+#rabbitmq_admin_password: password
+#rabbitmq_application_password: password
 
-
+redis_db: 0 # we use redis as broker service for celery
 # Ubuntu version
 ubuntu_version: trusty
 

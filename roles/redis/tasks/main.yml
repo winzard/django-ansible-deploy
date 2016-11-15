@@ -1,0 +1,9 @@
+---
+
+- name: Install Redis server
+  apt: name={{ item }} update_cache=yes force=yes state=installed
+  with_items:
+    - redis-server
+
+- name: Ensure that the Redis service is running
+  service: name=rabbitmq-server state=started enabled=yes

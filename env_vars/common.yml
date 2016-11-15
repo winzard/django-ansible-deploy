@@ -16,9 +16,9 @@ ssl_key_password: password
 
 
 # RabbitMQ settings.
-rabbitmq_server_name: "{{ inventory_hostname }}"
-rabbitmq_application_vhost: "{{ project_name }}"
-rabbitmq_application_user: "{{ project_name }}"
+#rabbitmq_server_name: "{{ inventory_hostname }}"
+#rabbitmq_application_vhost: "{{ project_name }}"
+#rabbitmq_application_user: "{{ project_name }}"
 
 # Celery settings.
 celery_num_workers: 2
