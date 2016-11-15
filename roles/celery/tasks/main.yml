@@ -8,7 +8,7 @@
 
 - include: copy_scripts.yml
 
-#- include: setup_supervisor.yml
+- include: setup_supervisor.yml
 
 - name: Check running applications managed by supervisor
   shell: supervisorctl status
