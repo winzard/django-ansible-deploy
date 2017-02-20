@@ -8,3 +8,13 @@ user={{ celery_user }}
 
 stdout_logfile={{ celery_log_file }}
 redirect_stderr = true
+
+[program:{{ celery_beat_application_name }}]
+command={{ virtualenv_path }}/bin/celery -A {{ application_name }} beat --loglevel=info --logfile={{ celery_beat_log_file }}
+
+user={{ celery_user }}
+autostart=true
+autorestart=true
+startsecs=5
+stopwaitsecs=60
+directory={{ project_path }}
