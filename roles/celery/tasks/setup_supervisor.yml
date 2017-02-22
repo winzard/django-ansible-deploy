@@ -32,6 +32,14 @@
   tags:
     - celery
 
+- name: Create the celery {{ celery_beat_application_name }} log file
+  file: path={{ celery_beat_log_file }}
+        owner={{ celery_user }}
+        group={{ celery_group }}
+        state=touch
+  tags:
+    - celery
+
 - name: Re-read the Supervisor config files
   command: supervisorctl reread
   tags:

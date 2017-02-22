@@ -7,7 +7,7 @@ CELERY_APP="{{ celery_application_name }}"
 CELERYD_CHDIR="{{ project_path }}"
 
 # Extra command-line arguments to the worker
-CELERYD_OPTS="-B --time-limit=300 --concurrency=8"
+CELERYD_OPTS="--time-limit=300 --concurrency=8"
 
 
 CELERYD_LOG_FILE="{{ celery_log_file }}"
